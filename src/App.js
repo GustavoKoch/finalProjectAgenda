@@ -11,8 +11,8 @@ export default function App() {
     return (
         <div>
             <Navbar />
-            <ListApp style={style} />
-            <Footer />
+            {/* <ListApp style={style} />
+            <Footer /> */}
         </div>
     )
 }
