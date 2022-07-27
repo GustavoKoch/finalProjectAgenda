@@ -9,9 +9,12 @@ import { useState, useEffect } from "react";
 
 
 export default function App() {
-    const [style, setStyle] = useState("todo")
+    const [style, setStyle] = useState("calendar")
+
     return (
         <div>
+            <button onClick={() => setStyle("todo")}>Todo List</button>
+            <button onClick={() => setStyle("calendar")}>Calendar</button>
             <Navbar />
             <ListApp style={style} />
             <Footer />

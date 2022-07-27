@@ -1,7 +1,7 @@
 import Todo from "./Todo.js";
 import Today from "./Today.js";
 import Shopping from "./Shopping.js";
-import Calendar from "./Calendar.js";
+import CalendarView from "./CalendarView.js";
 
 import React, { useState, useEffect } from 'react';
 
@@ -18,7 +18,7 @@ export default function ListApp(props) {
         case "todo":
             return (<Todo />)
         case "calendar":
-            return (<Calendar />)
+            return (<CalendarView />)
         //     case "today":
         //         return <Today
         //             create={create}
