@@ -1,75 +1,98 @@
-import "./App.css";
-import { useState, useRef, } from "react";
-import ListApp from "./ListApp";
+import './App.css';
+import React from 'react'
 
-export default function Todo() {
-  const [list, setList] = useState([1, 2, 3]);
-  const [currentTodo, setCurrentTodo] = useState({});
-  const [isEditing, setEditing] = useState(false);
-  const todoInputRef = useRef(null);
+function App() {
+  const [todos, setTodos] = React.useState([])
+  const [todo, setTodo] = React.useState("")
+  const [todoEditing, setTodoEditing] = React.useState(null)
+  const {editingText, setEditingText} = React.useState("")
+//save local data into storage
+React.useEffect(() => {
+ const temp = localStorage.getItem("todos")
+ const loadedTodos = JSON.parse(temp)
 
-  const create = () => {
-    console.log(todoInputRef.current.value);
+ if (loadedTodos) {
+  setTodos(loadedTodos)
+ }
+}, [])
 
+  React.useEffect(() => {
+    const temp = JSON.stringify(todos)
+    localStorage.setItem("todos", temp)
+   },[todos])
+  function handleSubmit(e){
+    e.preventDefault()
+//.
+    const newTodo = {
+      id: new Date().getTime(),
+      text: todo,
+      completed: false,
 
-    setList((previous) => [...previous, todoInputRef.current.value]);
-  };
+    }
 
-  // function handleEditInputChange(e) {
-  //   // console.log(currentTodo);
-  //   /* setCurrentTodo({ ...currentTodo, text: e.target.value }); */
-  //   {
-  //     isEditing && (
-  //       <form onSubmit={handleEditFormSubmit}>
-  //         <button type="submit">Update</button>
-  //         <h2>Edit Todo</h2>
-  //         <label htmlFor="editTodo">Edit todo: </label>
-  //         <input
-  //           name="editTodo"
-  //           type="text"
-  //           placeholder="Edit todo"
-  //           value={currentTodo.text}
-  //           onChange={handleEditInputChange}
-  //         />
-  //         <button type="submit">Update</button>
-  //       </form>
-  //     )
-  //   };
+    setTodos([...todos].concat(newTodo))
+    setTodo("")
+  }
+    function deleteTodo(id){
+    const updatedTodos = [...todos].filter((todo) => todo.id !== id)
 
-  const remove = (event) => {
+    setTodos(updatedTodos)
+    }
 
-    const itemToRemove = parseInt(event.target.id);
+    function toggleComplete(id) {
+      const updatedTodos = [...todos].map((todo) => {
+        if (todo.id === id ) {
+          todo.completed = !todo.completed
+        }
+        return todo
+      })
+      setTodos(updatedTodos)
+    }
 
-    setList((previous) => previous.filter((item, i) => i !== itemToRemove));
-  };
-  console.log(list);
+    function editTodo(id) {
+      const updatedTodos = [...todos].map((todo) => {
+        if (todo.id === id) {
+          todo.text = editingText
+        }
+        return todo
+      })
+      setTodos(updatedTodos)
+      setTodoEditing(null)
+      setEditingText("")
+    }
+
 
   return (
-
-    <div className="Todo">
+    <div className="App">
       <h1>Todo List</h1>
-      <input ref={todoInputRef} id="todo-input" type="text" />
-      <button onClick={create}>add to list</button>
-      {list.map((item, i) => (
-        <li onClick={remove} id={i}>
-          {item}
-        </li>
-        // 🗑️
-      ))}
-    </div>
+    <form onSubmit={handleSubmit}>
+      <input type="text" onChange={(e) => setTodo(e.target.value)} value={todo}/>
+      <button type="submit"> ➕</button>
+    </form>
+    {todos.map((todo)=> <div key={todo.id}>
+     
+     {todoEditing === todo.id ? (<input 
+      type="text" 
+      onChange={(e) => setEditingText(e.target.value)} 
+      value={editingText}/>) 
+      : 
+      (<div>{todo.text}</div>)}
+      
+
+      <button onClick={() => deleteTodo(todo.id)}>🗑️</button>
+      <input 
+      type="checkbox" 
+      onChange={() => toggleComplete(todo.id)}
+      checked={todo.completed}/>
+
+      {todoEditing === todo.id ? (<button onClick={() => editTodo(todo.id)}>☑️</button>)
+       : 
+       (<button onClick={() => setTodoEditing(todo.id)}>🖊️</button>)}
+
+
+      </div>)}
+   </div>
   );
-  // function handleIInputChange(e) {
-  //   setList(e.target.value);
-  // }
-  // function handleFormSubmit(e) {
-  //   e.preventDefault();
-  //   <form onSubmit={handleFormSubmit}>
-  //     <input
-  //       name="list"
-  //       type="text"
-  //       placeholder="Create a new todo"
-  //       value={list}
-  //     // onChange={handleInputChange}
-  //     />
-  //   </form>
-};
+}
+
+export default App;
