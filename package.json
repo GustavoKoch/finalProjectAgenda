@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-<<<<<<< HEAD
+
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
     "@mui/icons-material": "^5.8.4",
@@ -19,16 +19,6 @@
     "react-datepicker": "^4.8.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.3.0",
-=======
-    "@testing-library/jest-dom": "^5.16.4",
-    "@testing-library/react": "^13.3.0",
-    "@testing-library/user-event": "^13.5.0",
-    "moment": "^2.29.4",
-    "react": "^18.2.0",
-    "react-big-calendar": "^1.5.0",
-    "react-calendar": "^3.7.0",
-    "react-dom": "^18.2.0",
->>>>>>> e77b2c2ff09ab832cd66806e924d57dddc75f1d0
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
   },
