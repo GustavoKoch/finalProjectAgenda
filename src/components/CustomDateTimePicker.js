@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useState, useEffect } from "react";
 import AlarmIcon from '@mui/icons-material/Alarm';
 import SnoozeIcon from '@mui/icons-material/Snooze';
 import TextField from '@mui/material/TextField';
@@ -9,45 +9,74 @@ import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { MobileDateTimePicker } from '@mui/x-date-pickers/MobileDateTimePicker';
 import Stack from '@mui/material/Stack';
 import { brown } from '@mui/material/colors';
+import ApiCalenderData from "../services/ApiCalenderData";
 
-export default function CustomDateTimePicker({ sendEvent }) {
-  /* const [clearedDate, setClearedDate] = React.useState(null); */
-  const [form, setForm] = React.useState('');
-  const [value, setValue] = React.useState(new Date('2019-01-01T18:54'));
-  /*   console.log(value);
-    console.log(clearedDate); */
+export default function CustomDateTimePicker({ sendEvent, dayPicked }) {
+
+  const [event, setEvent] = useState('');
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [value1, setValue1] = useState(dayPicked);
+  const [value2, setValue2] = useState(dayPicked);
+
+  console.log(description);
+ 
 
   const passEvent = (e) => {
-    e.preventDefault();
-    let title = e.target.title.value;
-    let description = e.target.description.value;
-    /*     console.log(e.target.title.value);
-        console.log(e.target.description.value); */
-    sendEvent(title, description, value);
+    e.preventDefault(); 
+    patchCalenderData('POST', event);
+    sendEvent(); 
   }
-  /* console.log(sendEvent); */
 
-  /*   const styleDateTimePicker = {
-      alignText:'center',
-      width:1000,
-      backgroundColor:'brown',
-  }; */
- 
+
+  const patchCalenderData = (requestMethod, objToPass) => {
+    console.log(objToPass);
+    const extUrl="calender";
+    const url = `https://projectberlin-backend.herokuapp.com/${extUrl}`;
+  
+    const requestOptions = {
+      method: requestMethod,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(objToPass)}  
+   
+      fetch(url, requestOptions)
+      .then((res) =>{ res.json();})     
+      .catch((e) => console.log(e.message));
+   }
+
+  useEffect(() => {
+    setEvent({
+      starts_date: value1.toISOString(),
+      ends_date: value2.toISOString(),
+      title:title, 
+      description:description,
+      activityList:[],    
+      contacts:[],  
+      category:"Social events",
+      img_url:"https://popmenucloud.com/xrpblwcd/85ba676e-8969-4793-ba64-46c7724547be.jpg"
+
+    })
+    
+  }, [dayPicked, value1, value2, title, description]);
+
+
   return (
     <>
       <form onSubmit={(e) => passEvent(e)} className='containerForm'>
         <div className='eventForm'>
           <fieldset className='title'>
-            <label htmlFor="title">
+            <label for="title">
               Titel:
             </label>
-            <textarea name="title" />
+            <textarea name="title"                  value = {title}
+                     onChange={e => setTitle(e.target.value)}/>
           </fieldset>
           <div className='description'>
-            <label htmlFor="description">
+            <label for="description">
               Description:
             </label>
-            <textarea name="description" />
+            <textarea name="description"                  value = {description}
+                     onChange={e => setDescription(e.target.value)}/>
           </div>
         </div>
 
@@ -57,9 +86,9 @@ export default function CustomDateTimePicker({ sendEvent }) {
           <div>
             <MobileDateTimePicker
               /* style={styleDateTimePicker} */
-              value={value}
+              value={value1}
               onChange={(newValue) => {
-                setValue(newValue);
+                setValue1(newValue);
               }}
 
               label="Starts"
@@ -72,9 +101,9 @@ export default function CustomDateTimePicker({ sendEvent }) {
 
             <MobileDateTimePicker
               /* style={styleDateTimePicker} */
-              value={value}
+              value={value2}
               onChange={(newValue) => {
-                setValue(newValue);
+                setValue2(newValue);
               }}
 
               label="Ends"
@@ -85,14 +114,6 @@ export default function CustomDateTimePicker({ sendEvent }) {
               renderInput={(params) => <TextField {...params} />}
             />
             </div>
-            {/*     <DateTimePicker      
-          value={clearedDate}
-          onChange={(newValue) => setClearedDate(newValue)}
-          renderInput={(params) => (
-            <TextField {...params} helperText="Clear Initial State" />
-          )}
-        /> */}
-            {/* <button  style={{ width: 90, alignText: 'center', margin: 'auto', marginTop: 20 }}>Send</button> */}
 
           </Stack>
           <input className='sendButton' style={{alignText: 'center', margin: 'auto', marginTop: 20 }} type="submit" value="Send" />

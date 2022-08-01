@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 
-const useCalenderData = () => {
+const ApiCalenderData = (requestMethod, objToPass) => {
 
   /* console.log(originalName); */
 
@@ -12,8 +12,13 @@ const useCalenderData = () => {
   const extUrl="calender";
   const url = `https://projectberlin-backend.herokuapp.com/${extUrl}`;
 
+  const requestOptions = {
+    method: requestMethod,
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(objToPass)}
+
   useEffect(() => {
-        fetch(url)
+        fetch(url, requestOptions)
         .then((res) => res.json())
         .then((data) => {
             setCalData(data);
@@ -25,4 +30,4 @@ const useCalenderData = () => {
   return calData;
 };
 
-export default useCalenderData;
+export default ApiCalenderData;

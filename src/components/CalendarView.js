@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import useCalenderData from "../services/useCalenderData";
+
 
 
 function CalendarView() {
@@ -12,8 +12,7 @@ function CalendarView() {
     const saveEvent = (e) => {
         e.preventDefault()
     }
-    let calenderItems = useCalenderData();
-    console.log(calenderItems);
+
 
     return (
         <div className="app">
