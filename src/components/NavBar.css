@@ -1,0 +1,40 @@
+img.logo {
+    width: 40px;
+    height: 40px;
+    border: 1px solid black;
+    margin: 20px 25px;
+}
+
+.containerNavbar {
+    font-size: 2rem;
+
+}
+
+.profileDiv {
+    display:flex;
+}
+.MuiBox-root.css-1t6c9ts{width:1700px;}
+
+header.MuiPaper-root.MuiPaper-elevation.MuiPaper-elevation4.MuiAppBar-root.MuiAppBar-colorPrimary.MuiAppBar-positionStatic.css-1ujulej-MuiPaper-root-MuiAppBar-root {
+    width: 1400px;
+    border: 3px solid rgb(238, 233, 233);}
+.MuiContainer-root.MuiContainer-maxWidthXl.css-19r6kue-MuiContainer-root{text-align: center!important;}
+
+
+.MuiToolbar-root.MuiToolbar-regular.css-r6ewbb-MuiToolbar-root {
+    width: 1450px;
+    /* border: 1px solid black; */
+}
+.MuiContainer-root.MuiContainer-maxWidthXl.css-19r6kue-MuiContainer-root{width: 1770px;text-align: left;margin:0;}
+.MuiButton-root.MuiButton-text.MuiButton-textPrimary.MuiButton-sizeMedium.MuiButton-textSizeMedium.MuiButtonBase-root.css-1q39md6-MuiButtonBase-root-MuiButton-root{
+    font-size: 20px
+}
+
+.MuiAvatar-root.MuiAvatar-circular.css-1wlk0hk-MuiAvatar-root {
+    height: 75px;
+    width: 75px;
+    margin-right: 20px;
+}
+.profileh{margin:20px;color:white;font-weight:500; font-size: 20px;}
+
+    /* .avatarProfile img{height:50px;width:50px} */

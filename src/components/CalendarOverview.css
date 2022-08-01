@@ -1,0 +1,171 @@
+.solidBackground {
+
+    /* opacity: 1; */
+}
+
+
+.rbc-month-view {
+    border-radius: 25px;
+    border: 3px solid lightgrey;
+    background-color: white;
+    margin-top: 50px;
+    /*  height:500px; */
+    padding: 4px;
+}
+
+
+.rbc-row.rbc-month-header {
+    height: 50px;
+    text-align: center;
+    padding-top: 10px;
+    font-size: 1.2rem;
+}
+
+.rbc-toolbar-label {
+    font-style: italic;
+    font-size: 1.6rem;
+    font-weight: 700;
+}
+
+/* Buttons */
+.rbc-btn-group {
+    border-radius: 10px;
+    border: 3px solid lightgrey;
+    background-color: white;
+}
+
+
+.rbc-btn-group button {
+    border: 1px solid white;
+    font-size: 1rem;
+    ;
+}
+
+.rbc-calendar {
+    height: 900px;
+}
+
+.rbc-day-bg.rbc-off-range-bg {}
+
+.rbc-row-bg {
+    border-bottom-right-radius: 25px;
+}
+
+.rbc-event.rbc-event-allday,
+.rbc-event.rbc-event-allday {
+    margin: 3px;
+    width: auto;
+}
+
+
+
+
+.rbc-toolbar button:hover {
+    background-color: orange;
+}
+
+
+.rbc-toolbar button:focus {
+    background-color: lightgrey;
+}
+
+/* popupDateTimepicker */
+
+.popupDateTimePicker {
+    width: 35rem;
+    height: 26rem;
+    text-align: center;
+    margin: auto;
+    background-color: rgba(277, 277, 277, 1);
+    padding: 1rem;
+    border: 3px solid lightgrey;
+    background-color: white;
+    border-radius: 25px;
+}
+
+
+
+input#MuiFormControl-root.MuiTextField-root.css-1u3bzj6-MuiFormControl-root-MuiTextField-root {
+    text-align: center !important;
+    
+    margin: auto;
+}
+
+.containerForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin: auto;
+    text-align: center;
+    position: relative;
+}
+
+.title,
+.description {
+    margin: 10px 0;
+    display: flex;
+    flex-direction: column;
+    height: 15rem;
+    text-align: start;    
+    position: relative;
+}
+.title label,
+.description label {
+    position: absolute;
+    top:-8px;
+    left: 25px;
+    background-color:white;
+    padding:0 10px;
+    margin:5px 0;
+    
+}
+
+.eventForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin: auto;
+    height: 15rem;;
+}
+
+.title textarea {
+    height: 2rem;
+    width: 28rem;
+    margin: 5px;
+    font-size: 1.2rem;
+    text-align: start;
+    border: 3px solid lightgrey;
+    border-radius: 15px;
+    color:grey;
+}
+
+.description textarea{
+    height: 6rem;
+    width: 28rem;
+    margin: 5px;
+    overflow-wrap: break-word;
+    font-size: 1.2rem;
+    border: 3px solid lightgrey;
+    border-radius: 15px;
+    color:grey;
+}
+
+.title label,
+.description label {
+    margin: 1px;
+}
+.MuiOutlinedInput-root.MuiInputBase-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root{width:195px} 
+/* MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root */
+.MuiFormControl-root.MuiTextField-root.css-1u3bzj6-MuiFormControl-root-MuiTextField-root {
+    margin: 10px 20px;
+    margin-top: 30px;
+}
+input.sendButton{
+    height: 3rem;
+    font-size: 1.4rem;
+    border-radius: 15px;
+    width:180px;
+    border:3px solid grey;
+}
