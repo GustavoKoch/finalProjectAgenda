@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar.js";
@@ -41,6 +42,28 @@ export default function App() {
             {/*             <Navbar />
             <ListApp style={style} /> */}
 
+=======
+import Navbar from "./Navbar.js"
+import Footer from "./Footer.js"
+import ListApp from "./ListApp.js"
+import { useState, useEffect } from "react";
+
+// import Todo from "./Todo.js"
+
+
+
+
+export default function App() {
+    const [style, setStyle] = useState("calendar")
+
+    return (
+        <div>
+            <button onClick={() => setStyle("todo")}>Todo List</button>
+            <button onClick={() => setStyle("calendar")}>Calendar</button>
+            <Navbar />
+            <ListApp style={style} />
+            <Footer />
+>>>>>>> e77b2c2ff09ab832cd66806e924d57dddc75f1d0
         </div>
     )
 }

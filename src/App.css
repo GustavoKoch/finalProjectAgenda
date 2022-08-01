@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /* Reseting sytles */
 /* http://meyerweb.com/eric/tools/css/reset/ 
    v2.0 | 20110126
@@ -86,6 +87,9 @@ html {
 .MuiPaper-root.MuiPaper-elevation.MuiPaper-elevation4.MuiAppBar-root.MuiAppBar-colorPrimary.MuiAppBar-positionStatic.css-1ujulej-MuiPaper-root-MuiAppBar-root{margin:0;}
 .CalendarView__navigation {
    
+=======
+.CalendarView__navigation {
+>>>>>>> e77b2c2ff09ab832cd66806e924d57dddc75f1d0
     width: 400px;
     max-width: 100%;
     background-color: #fff;
