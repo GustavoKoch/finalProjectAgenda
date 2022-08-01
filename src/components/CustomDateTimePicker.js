@@ -11,53 +11,54 @@ import Stack from '@mui/material/Stack';
 import { brown } from '@mui/material/colors';
 import ApiCalenderData from "../services/ApiCalenderData";
 
-export default function CustomDateTimePicker({ sendEvent, dayPicked }) {
+export default function CustomDateTimePicker({ closeForm, dataPicked }) {
 
   const [event, setEvent] = useState('');
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [value1, setValue1] = useState(dayPicked);
-  const [value2, setValue2] = useState(dayPicked);
+  const [title, setTitle] = useState(dataPicked.title);
+  const [description, setDescription] = useState(dataPicked.description);
+  const [value1, setValue1] = useState(dataPicked.start);
+  const [value2, setValue2] = useState(dataPicked.end);
 
-  console.log(description);
- 
+   console.log("Hidatepicked",dataPicked);
+
 
   const passEvent = (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
     patchCalenderData('POST', event);
-    sendEvent(); 
+    closeForm();
   }
 
 
   const patchCalenderData = (requestMethod, objToPass) => {
     console.log(objToPass);
-    const extUrl="calender";
+    const extUrl = "calendar";
     const url = `https://projectberlin-backend.herokuapp.com/${extUrl}`;
-  
+
     const requestOptions = {
       method: requestMethod,
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(objToPass)}  
-   
-      fetch(url, requestOptions)
-      .then((res) =>{ res.json();})     
+      body: JSON.stringify(objToPass)
+    }
+
+    fetch(url, requestOptions)
+      .then((res) => { res.json(); })
       .catch((e) => console.log(e.message));
-   }
+  }
 
   useEffect(() => {
     setEvent({
-      starts_date: value1.toISOString(),
-      ends_date: value2.toISOString(),
-      title:title, 
-      description:description,
-      activityList:[],    
-      contacts:[],  
-      category:"Social events",
-      img_url:"https://popmenucloud.com/xrpblwcd/85ba676e-8969-4793-ba64-46c7724547be.jpg"
+      start: dataPicked.start,
+      end: dataPicked.end,
+      title: dataPicked.title,
+      description: description,
+      activityList: [],
+      contacts: [],
+      category: "Social events",
+      img_url: "https://popmenucloud.com/xrpblwcd/85ba676e-8969-4793-ba64-46c7724547be.jpg"
 
     })
-    
-  }, [dayPicked, value1, value2, title, description]);
+
+  }, [dataPicked, value1, value2, title, description]);
 
 
   return (
@@ -68,55 +69,85 @@ export default function CustomDateTimePicker({ sendEvent, dayPicked }) {
             <label for="title">
               Titel:
             </label>
-            <textarea name="title"                  value = {title}
-                     onChange={e => setTitle(e.target.value)}/>
+            <textarea name="title" value={event.title}
+              onChange={e => setTitle(e.target.value)} />
           </fieldset>
           <div className='description'>
             <label for="description">
               Description:
             </label>
-            <textarea name="description"                  value = {description}
-                     onChange={e => setDescription(e.target.value)}/>
+            <textarea name="description" value={event.description}
+              onChange={e => setDescription(e.target.value)} />
           </div>
         </div>
 
         <LocalizationProvider dateAdapter={AdapterDateFns}>
 
           <Stack spacing={3}>
-          <div>
-            <MobileDateTimePicker
-              /* style={styleDateTimePicker} */
-              value={value1}
-              onChange={(newValue) => {
-                setValue1(newValue);
-              }}
+            <div>
+              <MobileDateTimePicker
+                /* style={styleDateTimePicker} */
+                value={event.start}
+                onChange={(newValue) => {
+                  setValue1(newValue);
+                }}
 
-              label="Starts"
-              onError={console.log}
-              minDate={new Date('2018-01-01T00:00')}
-              inputFormat="yyyy/MM/dd hh:mm a"
-              mask="___/__/__ __:__ _M"
-              renderInput={(params) => <TextField {...params} />}
-            />
+                label="Starts"
+                onError={console.log}
+                minDate={new Date('2018-01-01T00:00')}
+                inputFormat="yyyy/MM/dd hh:mm a"
+                mask="___/__/__ __:__ _M"
+                renderInput={(params) => <TextField {...params} />}
+              />
 
-            <MobileDateTimePicker
-              /* style={styleDateTimePicker} */
-              value={value2}
-              onChange={(newValue) => {
-                setValue2(newValue);
-              }}
+              <MobileDateTimePicker
+                /* style={styleDateTimePicker} */
+                value={event.end}
+                onChange={(newValue) => {
+                  setValue2(newValue);
+                }}
 
-              label="Ends"
-              onError={console.log}
-              minDate={new Date('2018-01-01T00:00')}
-              inputFormat="yyyy/MM/dd hh:mm a"
-              mask="___/__/__ __:__ _M"
-              renderInput={(params) => <TextField {...params} />}
-            />
+                label="Ends"
+                onError={console.log}
+                minDate={new Date('2018-01-01T00:00')}
+                inputFormat="yyyy/MM/dd hh:mm a"
+                mask="___/__/__ __:__ _M"
+                renderInput={(params) => <TextField {...params} />}
+              />
             </div>
 
           </Stack>
-          <input className='sendButton' style={{alignText: 'center', margin: 'auto', marginTop: 20 }} type="submit" value="Send" />
+          
+          <div className="categoryandContacts">
+          <fieldset className="categoryCheckbox">
+            <legend>Category</legend>
+
+            <div style={{ alignText: 'center', margin: 10}}>
+              <input type="checkbox" id="scales" name="scales" checked/>
+                <label for="scales">Scales</label>
+            </div>
+
+            <div style={{ alignText: 'center', margin: 10}}>
+              <input type="checkbox" id="horns" name="horns"/>
+                <label for="horns">Horns</label>
+            </div>
+          </fieldset>   
+
+
+
+          <fieldset className="contactsList">
+            <legend>Contacts</legend>
+          <ul style={{ alignText: 'center', margin: 15}}>          
+                <li>Link 1</li>
+                <li>Link 2</li>
+                <li>Link 3</li>
+                <li>Link 4</li>
+                <li>Link 5</li>      
+
+            </ul>
+          </fieldset>
+          </div>
+          <input className='sendButton' style={{ alignText: 'center', margin:20}} type="submit" value="Send" />
 
         </LocalizationProvider>
       </form>

@@ -1,5 +1,5 @@
 import { getDay, parse, startOfWeek, format, set } from "date-fns";
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { Calendar, dateFnsLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import './CalendarOverview.css';
@@ -23,117 +23,133 @@ const localizer = dateFnsLocalizer({
 
 const events = [
     {
-        title: "Big Meeting",
-        allDay: true,
-        start: new Date(2022, 6, 30),
-        end: new Date(2022, 6, 30),
+        "activityList": [],
+        "category": "Social events",
+        "contacts": [],
+        "end": "2022-08-11T22:00:00.000Z",
+        "img_url": "https://popmenucloud.com/xrpblwcd/85ba676e-8969-4793-ba64-46c7724547be.jpg",
+        "start": "2022-08-05T22:00:00.000Z",
+        "title": "Vacation",
+        "description": "laalala"
     },
     {
-        title: "Big Meeting",
-        allDay: true,
-        start: new Date(2022, 6, 31),
-        end: new Date(2022, 6, 31),
-    },
-    {
-        title: "Big Meeting",
-        allDay: true,
-        start: new Date(2022, 7, 1),
-        end: new Date(2022, 7, 1),
-    },
-    {
-        title: "Vacation",
-        start: new Date(2022, 6, 7),
-        end: new Date(2022, 6, 10),
-    },
-    {
-        title: "Conference",
-        start: new Date(2022, 6, 17),
-        end: new Date(2022, 6, 22),
-    },
-    {
-        title: "Big Meeting",
-        allDay: true,
-        start: new Date(2022, 6, 12),
-        end: new Date(2022, 6, 14),
-    },
-    {
-        title: "Vacation",
-        start: new Date(2022, 6, 7),
-        end: new Date(2022, 6, 10),
-    },
-    {
-        title: "Conference",
-        start: new Date(2022, 6, 20),
-        end: new Date(2022, 6, 23),
+        "activityList": [],
+        "category": "Social events",
+        "contacts": [],
+        "end": "2022-08-21T22:00:00.000Z",
+        "img_url": "https://popmenucloud.com/xrpblwcd/85ba676e-8969-4793-ba64-46c7724547be.jpg",
+        "start": "2022-08-09T22:00:00.000Z",
+        "title": "Cooking",
+        "description": "laalala"
     }
-];
+]
 
 export default function CalendarOverview() {
-    const [newEvent, setNewEvent] = useState({ title: "", description:"", starts: "", ends: "" });
+    const [newEvent, setNewEvent] = useState({ title: "", description: "", starts: "", ends: "" });
     const [allEvents, setAllEvents] = useState(events);
     const [popupDateTimePicker, setPopupDateTimePicker] = useState('Close');
     const [daySelection, setDaySelection] = useState();
+    const [selectedEvent, setSelectedEvent] = useState();
+
+    let allCalendarItems=ApiCalenderData('GET',)||[];
+    allCalendarItems.push(      
+        {
+        "activityList": [],
+        "category": "Social events",
+        "contacts": [],
+        "end": "2020-08-16T00:00:00.000Z",
+        "img_url": "https://popmenucloud.com/xrpblwcd/85ba676e-8969-4793-ba64-46c7724547be.jpg",
+        "start": "2022-08-14T00:00:00.000Z",
+        "title": "Cooking",
+        "description": "laalala"
+    });
+
+  
+      
+   
+    console.log(allCalendarItems);
 
     function handleAddEvent() {
         setAllEvents([...allEvents, newEvent]);
-        console.log(newEvent);
     }
-
+    /* console.log(allEvents); */
     const handleClickCalendar = (e) => {
         /*    console.log(e); */
-
-        
     }
 
     const HandleSlotSelection = (e) => {
         console.log(e)
     }
 
-    const clickSend = () => {
-    
-                
-        handleAddEvent();
-        setPopupDateTimePicker("Close");
-    }
 
-    const readAllcalendarItems = ApiCalenderData('GET', );
-     console.log(readAllcalendarItems); 
-
-
+    console.log("allCalendarItems!!!!!", allCalendarItems);
 
     const eventStyleGetter = () => { }
-
     const selectDay = (slotInfo) => {
-        console.log(slotInfo.start);
-        setDaySelection(slotInfo);
+
+        setSelectedEvent(
+            {
+                "activityList": [],
+                "category": '',
+                "contacts": [],
+                "end": slotInfo.start,
+                "img_url": '',
+                "start": slotInfo.start,
+                "title": '',
+                "description": ''
+            }
+        );
+        console.log(selectedEvent);
         setPopupDateTimePicker("Show");
     }
 
-    useEffect(() => {
-        console.log(daySelection);
-      }, [daySelection]);
+    const clickSend = () => {
+        handleAddEvent();
+        /* setPopupDateTimePicker("Close"); */
+    }
 
+    const handleEventSelection = (e) => {
+        /* console.log(e, "Event data"); */
+        setSelectedEvent({
+            "activityList": e.activityList,
+            "category": e.category,
+            "contacts": e.contacts,
+            "end": e.end,
+            "img_url": e.img_url,
+            "start": e.start,
+            "title": e.title,
+            "description": e.description
+        })
+        setPopupDateTimePicker("Show");
+    };
+
+  
+
+  
+
+    if (selectedEvent)
+        console.log("hello", selectedEvent.start);
+
+    useEffect(() => {
+
+        /* handleEventSelection(); */
+    }, [selectedEvent]);
     return (
         <div >
 
             <div>
-                {popupDateTimePicker === 'Show' && <div className="popupDateTimePicker"><CustomDateTimePicker dayPicked={daySelection.start} closeForm={clickSend} /></div>}
-                <input type="text" placeholder="Add Title" style={{ width: "20%", marginRight: "10px" }} value={newEvent.title} onChange={(e) => { setNewEvent({ ...newEvent, title: e.target.value }); }} />
-                <DatePicker placeholderText="Start Date" style={{ marginRight: "10px" }} selected={newEvent.start} onChange={(start) => setNewEvent({ ...newEvent, start })} />
-                <DatePicker placeholderText="End Date" selected={newEvent.end} onChange={(end) => setNewEvent({ ...newEvent, end })} /> */}
-                <button stlye={{ marginTop: "10px" }} onClick={handleAddEvent}>
-                    Add Event
-                </button>
+                {popupDateTimePicker === 'Show' && <div className="popupDateTimePicker"><CustomDateTimePicker dataPicked={selectedEvent} closeForm={clickSend} /></div>}
             </div>
-            <div className="solidBackground" onClick={(e) => handleClickCalendar(e)}>
+            {allCalendarItems && <div className="solidBackground" onClick={(e) => handleClickCalendar(e)}>
                 <Calendar
                     localizer={localizer}
-                    events={allEvents} startAccessor="start" endAccessor="end" style={{ height: 1000, margin: "50px" }}
+                    events={allCalendarItems} startAccessor="start" endAccessor="end" style={{ height: 1000, margin: "50px" }}
                     onSelectSlot={(slotInfo) => { selectDay(slotInfo) }}
+                    onSelectEvent={handleEventSelection}
                     selectable
                     popup={true}
                     eventPropGetter={(eventStyleGetter)} />
-            </div>
+            </div>}
         </div>
     );
 }
