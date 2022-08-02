@@ -82,7 +82,7 @@ export default function CalendarOverview() {
     }
 
 
-    console.log("allCalendarItems!!!!!", allCalendarItems);
+/*     console.log("allCalendarItems!!!!!", allCalendarItems); */
 
     const eventStyleGetter = () => { }
     const selectDay = (slotInfo) => {

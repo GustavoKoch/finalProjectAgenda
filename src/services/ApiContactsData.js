@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 
-const useCalenderData = () => {
+const ApiContactsData= () => {
 
   /* console.log(originalName); */
 
@@ -9,7 +9,7 @@ const useCalenderData = () => {
   const [calData, setCalData] = useState();
 
   /* const pokeName = originalName.toLowerCase(); */
-  const extUrl="activityList";
+  const extUrl="contacts";
 
   useEffect(() => {
     const url = `https://projectberlin-backend.herokuapp.com/${extUrl}`;
@@ -17,6 +17,7 @@ const useCalenderData = () => {
         .then((res) => res.json())
         .then((data) => {
             setCalData(data);
+
              console.log(data); 
         })
         .catch((e) => console.log(e.message));
@@ -25,4 +26,4 @@ const useCalenderData = () => {
   return calData;
 };
 
-export default useCalenderData;
+export default ApiContactsData;
