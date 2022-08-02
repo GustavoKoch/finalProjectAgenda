@@ -24,12 +24,12 @@ export default function CustomDateTimePicker({ closeForm, dataPicked }) {
 
   const passEvent = (e) => {
     e.preventDefault();
-    patchCalenderData('POST', event);
+    postCalenderData('POST', event);
     closeForm();
   }
 
 
-  const patchCalenderData = (requestMethod, objToPass) => {
+  const postCalenderData = (requestMethod, objToPass) => {
     console.log(objToPass);
     const extUrl = "calendar";
     const url = `https://projectberlin-backend.herokuapp.com/${extUrl}`;

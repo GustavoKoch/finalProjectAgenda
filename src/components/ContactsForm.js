@@ -8,106 +8,139 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 
-
+let categories=['family','friend', 'other']
+let categObj={categ0:'', categ1:'', categ2:''};
 
 export default function ContactsForm() {
-    const [contact, setContact] = useState({
-    });
+    const [contact, setContact] = useState({ firstName: '', lastName: '', birthday: 0, nameday: 0, category: [], avatar: '' });
+    const [checkedState, setCheckedState] = useState({categ0:'family', categ1:'friend', categ2:'other'})
+    const[category, setCategory]=useState();
 
+    const addContact=()=>{
+    }
+    const handleOnChange = (e, position) => {
+        categories.map((item, index) =>{      
+               
+         const categChecks= document.getElementById(`custom-checkbox-${index}`).checked;
+         const categName= document.getElementById(`custom-checkbox-${index}`).name;
+         console.log(categName);
 
-    return (
-        <div >
-            <div className="container1">
+         if (categChecks){
+            categObj['categ'+index]=categName;
+         console.log(categName);}
+         else{
+            categObj['categ'+index]='';
+         }
+        console.log(categObj);        
+        })
+    }
+        const submitContact = (e) => {
+            e.preventDefault();
+            console.log(contact);
+            let checkbox = document.getElementsByClassName('category').value;
+            console.log(checkbox);
+        }
 
-                <fieldset className="contactList">
+        return (
+            <div >
+                <form className='containerForm' onSubmit={(e) => submitContact(e)}>
                     <legend>Form</legend>
-
-                    <ul style={{ alignText: 'center', margin: 10, width: 520 }}>
-                        <div className='contactForm'>
-                        <fieldset className='description'>
-                            <label for="FirstaName">
+                    <div className='container1'>
+                        <fieldset className='firstName'>
+                            <label for="firstName">
                                 FirstName:
                             </label>
-                            <textarea name="FirstName" value={contact.firstName}
-                                onChange={e => setContact(...contact, { firstName: e.target.value })} />
+                            <textarea name="firstName" value={contact.firstName}
+                                onChange={addContact} />
                         </fieldset>
-                            <div className='description'>
-                                <label for="LastName">
-                                    LastName
-                                </label>
-                                <textarea name="lastName" value={contact.lastName}
-                                onChange={e => setContact(...contact, { lastName: e.target.value })} />
+                        <div className='lastName'>
+                            <label for="lastName">
+                                LastName
+                            </label>
+                            <textarea name="lastName" value={contact.lastName}
+                                onChange={addContact} />
+                        </div>
+                    </div>
+
+                    <div className="container2">
+                        <LocalizationProvider dateAdapter={AdapterDateFns}>
+                            <div className='Birthday'>
+
+                                <MobileDateTimePicker
+                                    /* style={styleDateTimePicker} */
+                                    value={contact.birthday}
+                                    onChange={addContact}
+
+                                    label="Birthday"
+                                    onError={console.log}
+                                    minDate={new Date('2018-01-01T00:00')}
+                                    inputFormat="yyyy/MM/dd hh:mm a"
+                                    mask="___/__/__ __:__ _M"
+                                    renderInput={(params) => <TextField {...params} />}
+                                />
                             </div>
+                            <div className='Nameday'>
+
+                                <MobileDateTimePicker
+                                    /* style={styleDateTimePicker} */
+                                    value={contact.nameday}
+                                    onChange={addContact}
+
+                                    label="Nameday"
+                                    onError={console.log}
+                                    minDate={new Date('2018-01-01T00:00')}
+                                    inputFormat="yyyy/MM/dd hh:mm a"
+                                    mask="___/__/__ __:__ _M"
+                                    renderInput={(params) => <TextField {...params} />}
+                                />
+                            </div>
+
+                        </LocalizationProvider>
+                    </div>
+                    <div className="container3">
+                        <div className='category'>
+                            <label for="category">
+                                Category:
+                            </label>
+                            <form className="categForm" onChange={addContact}>
+
+                               {categories.map((cat, index) => {
+                                    return (
+                                        <li key={index}>
+                                            <div className="categories-list">
+                                                <div className="left-section">
+                                                    <input
+                                                        type="checkbox"
+                                                        id={`custom-checkbox-${index}`}
+                                                        name={cat}
+                                                        value={cat}
+                                                      
+                                                        onChange={(e) => handleOnChange(e, index)}
+                                                    />
+                                                    <label htmlFor={`custom-checkbox-${index}`}>{cat}</label>
+                                                </div>
+                                                <div className="right-section"></div>
+                                            </div>
+                                        </li>
+                                    );
+                                })} 
+
+
+                            </form>
+
+                        </div>
+                        <div className='Avatar'>
+                            <label for="Avatar">
+                                Avatar:
+                            </label>
+                            <textarea name="Category" value={contact.avatar} onChange={addContact}
+                            />
                         </div>
 
-                        <div className="container2">
-                            <LocalizationProvider dateAdapter={AdapterDateFns}>
-                                <div className='Birthday'>
 
-                                    <MobileDateTimePicker
-                                        /* style={styleDateTimePicker} */
-                                        value={contact.birthday}
-                                        onChange={e => setContact(...contact, { birthday: e.target.value })}
-
-                                        label="Birthday"
-                                        onError={console.log}
-                                        minDate={new Date('2018-01-01T00:00')}
-                                        inputFormat="yyyy/MM/dd hh:mm a"
-                                        mask="___/__/__ __:__ _M"
-                                        renderInput={(params) => <TextField {...params} />}
-                                    />
-                                </div>
-                                <div className='Nameday'>
-
-                                    <MobileDateTimePicker
-                                        /* style={styleDateTimePicker} */
-                                        value={contact.nameday}
-                                        onChange={e => setContact(...contact, { nameday: e.target.value })}
-
-                                        label="Nameday"
-                                        onError={console.log}
-                                        minDate={new Date('2018-01-01T00:00')}
-                                        inputFormat="yyyy/MM/dd hh:mm a"
-                                        mask="___/__/__ __:__ _M"
-                                        renderInput={(params) => <TextField {...params} />}
-                                    />
-                                </div>
-
-                            </LocalizationProvider>
-                        </div>
-                        <div className="container3">
-                            <div className='Category'>
-                                <label for="Category">
-                                    Category:
-                                </label>
-                                <textarea name="Category" value={contact.lastName}
-                                    onChange={e => setContact(...contact, { lastName: e.target.value })} />
-                            </div>
-                            <div className='Avatar'>
-                                <label for="Avatar">
-                                    Avatar:
-                                </label>
-                                <textarea name="Category" value={contact.lastName}
-                                    onChange={e => setContact(...contact, { lastName: e.target.value })} />
-                            </div>
-                        </div>
-
-                    </ul>
-                    <input className='sendButton' style={{ alignText: 'center', margin: 20 }} type="submit" value="Add contact" />
-                </fieldset>
+                        <input className='sendButton' style={{ alignText: 'center', margin: 20 }} type="submit" value="Add contact" />
+                    </div>
+                </form >
             </div>
-
-
-        </div>
-    )
+        )
 }
-
-/*     "first_name": "Bugs",
-    "last_name": "Bunny",
-    "birthday": "2022-12-03T21:00:00.000Z",
-    "nameday": null,
-    "category": "friend",
-    "avatar_url": "https://findicons.com/files/icons/206/looney_tunes/300/bugs_bunny_country.png",
-    "createdAt": "2022-07-27T13:26:31.099Z",
-    "updatedAt": "2022-07-27T13:26:31.099Z",
-    "__v": 0 */
