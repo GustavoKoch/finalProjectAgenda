@@ -1,146 +1,192 @@
 import React from "react";
-import Navbar from "./Navbar.js";
-import Footer from "./Footer.js";
+
 import { useState, useEffect } from "react";
 import { MobileDateTimePicker } from '@mui/x-date-pickers/MobileDateTimePicker';
 import TextField from '@mui/material/TextField';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import ApiContactsData from "../services/ApiContactsData";
 
 
-let categories=['family','friend', 'other']
-let categObj={categ0:'', categ1:'', categ2:''};
+let categories = ['family', 'friend', 'other']
+let categObj = { categ0: '', categ1: '', categ2: '' };
+let categValues;
+let updatedContact;
 
 export default function ContactsForm() {
-    const [contact, setContact] = useState({ firstName: '', lastName: '', birthday: 0, nameday: 0, category: [], avatar: '' });
-    const [checkedState, setCheckedState] = useState({categ0:'family', categ1:'friend', categ2:'other'})
-    const[category, setCategory]=useState();
+    const [contact, setContact] = useState({ firstName: '', lastName: '', birthday: '2018-01-01T00:00', nameday: '2018-01-01T00:00', category: [], avatar: '' });
 
-    const addContact=()=>{
+    let allContacts = ApiContactsData() || [];
+    console.log(allContacts);
+
+    const handleChange = (e, newValue, birthNameday) => {
+        /*     console.log(newValue);
+            console.log(birthNameday); */
+        if (!birthNameday) {
+            const { name, value } = e.target;
+            /*      console.log(e.target);
+                 console.log(name, value); */
+            setContact(prevContact => ({
+                ...prevContact,
+                [name]: value
+            }));
+            /* I found 2 ways to pass the value in dateTimePicker: interesting! */
+        } else {
+            setContact(prevContact => ({
+                ...prevContact,
+                [birthNameday]: newValue
+            }));
+        };
     }
-    const handleOnChange = (e, position) => {
-        categories.map((item, index) =>{      
-               
-         const categChecks= document.getElementById(`custom-checkbox-${index}`).checked;
-         const categName= document.getElementById(`custom-checkbox-${index}`).name;
-         console.log(categName);
 
-         if (categChecks){
-            categObj['categ'+index]=categName;
-         console.log(categName);}
-         else{
-            categObj['categ'+index]='';
-         }
-        console.log(categObj);        
+
+
+
+    const handleChangeCategory = (e, position) => {
+        /* We check with every change wich category remains checked. For that we use map over the categories */
+        categories.map((item, index) => {
+            const categCheck = document.getElementById(`custom-checkbox-${index}`).checked;
+            const categName = document.getElementById(`custom-checkbox-${index}`).name;
+            console.log(categName);
+
+            if (categCheck) {
+                categObj['categ' + index] = categName;
+                console.log(categName);
+
+            }
+            else {
+                ;
+                categObj['categ' + index] = '';
+                console.log(categObj);
+
+            }
+            categValues = Object.values(categObj);
+            return categValues;
         })
+
     }
-        const submitContact = (e) => {
-            e.preventDefault();
-            console.log(contact);
-            let checkbox = document.getElementsByClassName('category').value;
-            console.log(checkbox);
-        }
+    const submitContact = (e) => {
+        e.preventDefault();
+        /*  console.log(categObj);
+         console.log(categValues); */
 
-        return (
-            <div >
-                <form className='containerForm' onSubmit={(e) => submitContact(e)}>
-                    <legend>Form</legend>
-                    <div className='container1'>
-                        <fieldset className='firstName'>
-                            <label for="firstName">
-                                FirstName:
-                            </label>
-                            <textarea name="firstName" value={contact.firstName}
-                                onChange={addContact} />
-                        </fieldset>
-                        <div className='lastName'>
-                            <label for="lastName">
-                                LastName
-                            </label>
-                            <textarea name="lastName" value={contact.lastName}
-                                onChange={addContact} />
-                        </div>
+        updatedContact = {
+            ...contact,
+            'category': categValues
+        };
+        console.log(updatedContact);
+        setContact(updatedContact
+        );
+
+    }
+    console.log(contact);
+    return (
+        <div >
+            <form className="containerForm" onSubmit={(e) => submitContact(e)}>
+                <legend>Form</legend>
+                <div className="container1">
+                    <fieldset className="firstName">
+                        <label for="firstName">
+                            FirstName:
+                        </label>
+                        <textarea name="firstName" value={contact.firstName}
+                            onChange={handleChange} />
+                    </fieldset>
+                    <div className="lastName">
+                        <label for="lastName">
+                            LastName
+                        </label>
+                        <textarea name="lastName" value={contact.lastName}
+                            onChange={handleChange} />
                     </div>
+                </div>
 
-                    <div className="container2">
-                        <LocalizationProvider dateAdapter={AdapterDateFns}>
-                            <div className='Birthday'>
+                <div className="container2">
+                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                        <div className="birthday">
 
-                                <MobileDateTimePicker
-                                    /* style={styleDateTimePicker} */
-                                    value={contact.birthday}
-                                    onChange={addContact}
+                            <MobileDateTimePicker
 
-                                    label="Birthday"
-                                    onError={console.log}
-                                    minDate={new Date('2018-01-01T00:00')}
-                                    inputFormat="yyyy/MM/dd hh:mm a"
-                                    mask="___/__/__ __:__ _M"
-                                    renderInput={(params) => <TextField {...params} />}
-                                />
-                            </div>
-                            <div className='Nameday'>
+                                value={contact.birthday}
+                                /* I found 2 ways to pass the value: interesting! */
+                                onChange={(newValue) => {
+                                    setContact({
+                                        ...contact,
+                                        'birthday': newValue
+                                    })
 
-                                <MobileDateTimePicker
-                                    /* style={styleDateTimePicker} */
-                                    value={contact.nameday}
-                                    onChange={addContact}
+                                }}
 
-                                    label="Nameday"
-                                    onError={console.log}
-                                    minDate={new Date('2018-01-01T00:00')}
-                                    inputFormat="yyyy/MM/dd hh:mm a"
-                                    mask="___/__/__ __:__ _M"
-                                    renderInput={(params) => <TextField {...params} />}
-                                />
-                            </div>
-
-                        </LocalizationProvider>
-                    </div>
-                    <div className="container3">
-                        <div className='category'>
-                            <label for="category">
-                                Category:
-                            </label>
-                            <form className="categForm" onChange={addContact}>
-
-                               {categories.map((cat, index) => {
-                                    return (
-                                        <li key={index}>
-                                            <div className="categories-list">
-                                                <div className="left-section">
-                                                    <input
-                                                        type="checkbox"
-                                                        id={`custom-checkbox-${index}`}
-                                                        name={cat}
-                                                        value={cat}
-                                                      
-                                                        onChange={(e) => handleOnChange(e, index)}
-                                                    />
-                                                    <label htmlFor={`custom-checkbox-${index}`}>{cat}</label>
-                                                </div>
-                                                <div className="right-section"></div>
-                                            </div>
-                                        </li>
-                                    );
-                                })} 
-
-
-                            </form>
-
+                                label="birthday"
+                                onError={console.log}
+                                minDate={new Date('2018-01-01T00:00')}
+                                inputFormat="yyyy/MM/dd hh:mm a"
+                                mask="___/__/__ __:__ _M"
+                                renderInput={(params) => <TextField {...params} />}
+                            />
                         </div>
-                        <div className='Avatar'>
-                            <label for="Avatar">
-                                Avatar:
-                            </label>
-                            <textarea name="Category" value={contact.avatar} onChange={addContact}
+                        <div className="nameday">
+
+                            <MobileDateTimePicker
+
+                                value={contact.nameday}
+                                /* I found 2 ways to pass the value: interesting! */
+                                onChange={(newValue) => handleChange('', newValue, 'nameday')}
+                                name="nameday"
+                                label="Nameday"
+                                onError={console.log}
+                                minDate={new Date('2018-01-01T00:00')}
+                                inputFormat="yyyy/MM/dd hh:mm a"
+                                mask="___/__/__ __:__ _M"
+                                renderInput={(params) => <TextField {...params} />}
                             />
                         </div>
 
+                    </LocalizationProvider>
+                </div>
+                <div className="container3">
+                    <div className="category">
+                        <label for="category">
+                            Category:
+                        </label>
+                        <fieldset className="categForm" >
 
-                        <input className='sendButton' style={{ alignText: 'center', margin: 20 }} type="submit" value="Add contact" />
+                            {categories.map((cat, index) => {
+                                return (
+                                    <li key={index}>
+                                        <div className="categories-list">
+                                            <div className="left-section">
+                                                <input
+                                                    type="checkbox"
+                                                    id={`custom-checkbox-${index}`}
+                                                    name={cat}
+                                                    value={cat}
+                                                    onChange={(e) => handleChangeCategory(e, index)}
+                                                />
+                                                <label htmlFor={`custom-checkbox-${index}`}>{cat}</label>
+                                            </div>
+                                            <div className="right-section"></div>
+                                        </div>
+                                    </li>
+                                );
+                            })}
+
+
+                        </fieldset>
+
                     </div>
-                </form >
-            </div>
-        )
+                    <div className="avatar">
+                        <label for="avatar">
+                            Avatar:
+                        </label>
+                        <textarea name="avatar" value={contact.avatar} onChange={handleChange}
+                        />
+                    </div>
+
+
+                    <input className="sendButton" style={{ alignText: 'center', margin: 20 }} type="submit" value="Add contact" />
+                </div>
+            </form >
+        </div>
+    )
 }

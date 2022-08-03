@@ -65,20 +65,20 @@ export default function Contacts() {
       <div className='contactsContainer'>
         <div id='contactsTitle'>
           <h1>Contacts</h1>
-          <IconButton className='bigButton' >
+          <IconButton className="bigButton" >
             <AddIcon />
           </IconButton>
         </div>
         {allContacts && allContacts.map((person, index) => (
-          <Card key={index} className={classes.card}>
-            <CardContent className={classes.content}>
+          <Card key={index} className={classes?classes.card:''}>
+            <CardContent className={classes?classes.content:''}>
               <Avatar
                 variant="rounded"
-                className={classes.avatar}
+                className={classes?classes.avatar:''}
                 src={person.avatar_url}
               />
               <Box px={3}>
-                <Typography variant="h6" className={{
+                <Typography variant="h6" sx={{
                   lineHeight: 1
                 }}>
                   {person.first_name + " " + person.second_name}
@@ -87,7 +87,7 @@ export default function Contacts() {
                   "Twitter"
                 </Typography>
               </Box>
-              <IconButton size="small" className={classes.button}>
+              <IconButton size="small" className={classes?classes.button:''}>
                 <AddIcon />
               </IconButton>
             </CardContent>
