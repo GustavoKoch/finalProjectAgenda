@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 
-const ApiContactsData= () => {
+const ApiContactsData= (requestMethod, objToPass) => {
 
   /* console.log(originalName); */
 
@@ -10,18 +10,23 @@ const ApiContactsData= () => {
 
   /* const pokeName = originalName.toLowerCase(); */
   const extUrl="contacts";
+  const url = `https://projectberlin-backend.herokuapp.com/${extUrl}`;
+
+  const requestOptions = {
+    method: requestMethod,
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(objToPass)
+  }
 
   useEffect(() => {
-    const url = `https://projectberlin-backend.herokuapp.com/${extUrl}`;
-        fetch(url)
-        .then((res) => res.json())
-        .then((data) => {
-            setCalData(data);
-
-             console.log(data); 
-        })
-        .catch((e) => console.log(e.message));
-  }, []);
+    fetch(url, requestOptions)
+      .then((res) => res.json())
+      .then((data) => {
+        setCalData(data);
+        /* console.log(data); */
+      })
+      .catch((e) => console.log(e.message));
+  }, [requestOptions]);
   if (!calData) return null;
   return calData;
 };

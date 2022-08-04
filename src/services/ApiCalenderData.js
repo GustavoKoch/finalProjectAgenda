@@ -11,7 +11,7 @@ const ApiCalenderData = (requestMethod, objToPass) => {
   /* const pokeName = originalName.toLowerCase(); */
   const extUrl = "calendar";
   const url = `https://projectberlin-backend.herokuapp.com/${extUrl}`;
-  const url2 = `http://localhost:3031/${extUrl}`;
+  /* const url2 = `http://localhost:3031/${extUrl}`; */
 
   const requestOptions = {
     method: requestMethod,

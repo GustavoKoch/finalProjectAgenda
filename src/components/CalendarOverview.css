@@ -160,7 +160,7 @@ input#MuiFormControl-root.MuiTextField-root.css-1u3bzj6-MuiFormControl-root-MuiT
     margin: 10px 20px;
     margin-top: 30px;
 }
-input.sendButton{
+input.formButton{
     height: 3rem;
     font-size: 1.4rem;
     border-radius: 15px;

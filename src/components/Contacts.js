@@ -54,7 +54,7 @@ export default function Contacts() {
   const [popupContactsForm, setPopupContactsFormr] = useState('Show');
 
   let allContacts = ApiContactsData() || [];
-  console.log(allContacts);
+ /*  console.log(allContacts); */
 
   const classes = useStyles();
   /* console.log(classes); */
@@ -81,7 +81,7 @@ export default function Contacts() {
                 <Typography variant="h6" sx={{
                   lineHeight: 1
                 }}>
-                  {person.first_name + " " + person.second_name}
+                  {person.first_name + " " + person.last_name}
                 </Typography>
                 <Typography variant="caption" color="textSecondary">
                   "Twitter"

@@ -147,7 +147,7 @@ export default function CustomDateTimePicker({ closeForm, dataPicked }) {
             </ul>
           </fieldset>
           </div>
-          <input className='sendButton' style={{ alignText: 'center', margin:20}} type="submit" value="Send" />
+          <input className='formButton' style={{ alignText: 'center', margin:20}} type="submit" value="Send" />
 
         </LocalizationProvider>
       </form>

@@ -17,7 +17,9 @@ export default function ContactsForm() {
     const [contact, setContact] = useState({ firstName: '', lastName: '', birthday: '2018-01-01T00:00', nameday: '2018-01-01T00:00', category: [], avatar: '' });
 
     let allContacts = ApiContactsData() || [];
-    console.log(allContacts);
+    /* console.log(allContacts); */
+
+
 
     const handleChange = (e, newValue, birthNameday) => {
         /*     console.log(newValue);
@@ -47,17 +49,17 @@ export default function ContactsForm() {
         categories.map((item, index) => {
             const categCheck = document.getElementById(`custom-checkbox-${index}`).checked;
             const categName = document.getElementById(`custom-checkbox-${index}`).name;
-            console.log(categName);
+            /* console.log(categName); */
 
             if (categCheck) {
                 categObj['categ' + index] = categName;
-                console.log(categName);
+                /* console.log(categName); */
 
             }
             else {
                 ;
                 categObj['categ' + index] = '';
-                console.log(categObj);
+                /* console.log(categObj); */
 
             }
             categValues = Object.values(categObj);
@@ -75,11 +77,38 @@ export default function ContactsForm() {
             'category': categValues
         };
         console.log(updatedContact);
-        setContact(updatedContact
-        );
+        setContact(updatedContact);
+       /*  ApiContactsData('POST', updatedContact); */
 
+         postContactData('POST', updatedContact); 
+       
+     
     }
-    console.log(contact);
+
+    
+    
+      const postContactData = (requestMethod, objToPass) => {
+        console.log(objToPass);
+        const extUrl = "contacts";
+        const url = `https://projectberlin-backend.herokuapp.com/${extUrl}`;
+    
+        const requestOptions = {
+          method: requestMethod,
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(objToPass)
+        }
+    
+        fetch(url, requestOptions)
+          .then((res) => { res.json(); })
+          .catch((e) => console.log(e.message));
+      }
+
+
+
+
+
+
+
     return (
         <div >
             <form className="containerForm" onSubmit={(e) => submitContact(e)}>
@@ -184,7 +213,8 @@ export default function ContactsForm() {
                     </div>
 
 
-                    <input className="sendButton" style={{ alignText: 'center', margin: 20 }} type="submit" value="Add contact" />
+                    <input className="formButton" style={{ alignText: 'center', margin: 20 }} type="submit" value="Add contact" />
+                    <input className="formButton" style={{ alignText: 'center', margin: 20 }} type="submit" value="Delete contact" />
                 </div>
             </form >
         </div>
