@@ -34,6 +34,7 @@ export default function App() {
                 <Route path="/calendar" element={<CalendarOverview/>} />
                 <Route path="/lists" element={<Lists />} />
                 <Route path="/contacts" element={<Contacts />} />
+                <Route path="/contacts/:contactId" element={<Contacts />} />
                 <Route path="/vacationPlaning" element={<VacationPlaning />} />
                 <Route path="/birthdays" element={<Birthdays />} />
             </Routes>

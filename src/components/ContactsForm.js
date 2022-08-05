@@ -6,28 +6,37 @@ import TextField from '@mui/material/TextField';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import ApiContactsData from "../services/ApiContactsData";
+import { useParams} from "react-router-dom";
 
 
 let categories = ['family', 'friend', 'other']
 let categObj = { categ0: '', categ1: '', categ2: '' };
 let categValues;
+let categValuesNoEmpty;
 let updatedContact;
+let allContacts;
+export default function ContactsForm({contactPicked, closeForm}) {
 
-export default function ContactsForm() {
-    const [contact, setContact] = useState({ firstName: '', lastName: '', birthday: '2018-01-01T00:00', nameday: '2018-01-01T00:00', category: [], avatar: '' });
+    
+    
 
-    let allContacts = ApiContactsData() || [];
-    /* console.log(allContacts); */
+    const [contact, setContact] = useState(contactPicked);
+    /* Useffect for rerendering again if initial state (contactPicked) changes */
+    useEffect(() => {
+        setContact(contactPicked)
+    }, [contactPicked]);
+    console.log(contact);
 
+    const {contactId}=useParams();
 
+    allContacts = ApiContactsData() || [];
 
     const handleChange = (e, newValue, birthNameday) => {
-        /*     console.log(newValue);
-            console.log(birthNameday); */
+        /* For first and lastname */
+        console.log(e.target.value)
         if (!birthNameday) {
             const { name, value } = e.target;
-            /*      console.log(e.target);
-                 console.log(name, value); */
+
             setContact(prevContact => ({
                 ...prevContact,
                 [name]: value
@@ -44,70 +53,82 @@ export default function ContactsForm() {
 
 
 
-    const handleChangeCategory = (e, position) => {
+    const handleChangeCategory = () => {
         /* We check with every change wich category remains checked. For that we use map over the categories */
         categories.map((item, index) => {
             const categCheck = document.getElementById(`custom-checkbox-${index}`).checked;
             const categName = document.getElementById(`custom-checkbox-${index}`).name;
-            /* console.log(categName); */
 
             if (categCheck) {
                 categObj['categ' + index] = categName;
-                /* console.log(categName); */
-
+          
             }
             else {
-                ;
-                categObj['categ' + index] = '';
-                /* console.log(categObj); */
-
+                categObj['categ' + index] = null;
             }
             categValues = Object.values(categObj);
-            return categValues;
-        })
 
+            categValuesNoEmpty = categValues.filter(n => n)
+            console.log(categValuesNoEmpty);
+            return categValuesNoEmpty;
+        })
     }
+
+    const updatedContact2 = {
+        "firstName": "Bugs",
+        "lastName": "Carrots22",
+        "birthday": "2022-12-03T21:00:00Z",
+        "nameday": "",
+        "category": ["friend", "family"],
+        "avatar_url": "https://findicons.com/files/icons/206/looney_tunes/300/bugs_bunny_country.png"
+    }
+
     const submitContact = (e) => {
         e.preventDefault();
-        /*  console.log(categObj);
-         console.log(categValues); */
 
         updatedContact = {
             ...contact,
-            'category': categValues
+            'category': categValuesNoEmpty
         };
         console.log(updatedContact);
         setContact(updatedContact);
-       /*  ApiContactsData('POST', updatedContact); */
-
-         postContactData('POST', updatedContact); 
-       
-     
+        /*   ApiContactsData('POST', updatedContact);  */
+        if(!contactId)
+        postPutContactData('POST', updatedContact);
+        else
+        postPutContactData('PUT', updatedContact, contactId);
+        closeForm()
     }
 
+    const handleDelete=(id)=>{
+        const url = "https://projectberlin-backend.herokuapp.com/contacts/"+id;
+     
+
+        fetch(url, {method:'DELETE', })
+            .then((res) => { res.json(); })
+            .catch((e) => console.log(e.message));
+    }
     
-    
-      const postContactData = (requestMethod, objToPass) => {
-        console.log(objToPass);
-        const extUrl = "contacts";
+
+
+    const postPutContactData = (requestMethod, objToPass, id) => {     
+        let extUrl = "contacts";
+        if (requestMethod==='PUT')
+        extUrl = "contacts"+"/"+id;
+
         const url = `https://projectberlin-backend.herokuapp.com/${extUrl}`;
-    
+
         const requestOptions = {
-          method: requestMethod,
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(objToPass)
+            /* mode: 'no-cors',  */
+            method: requestMethod,
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(objToPass)
         }
-    
+
         fetch(url, requestOptions)
-          .then((res) => { res.json(); })
-          .catch((e) => console.log(e.message));
-      }
-
-
-
-
-
-
+            .then((res) => { res.json(); })
+            .catch((e) => console.log(e.message));
+    }
 
     return (
         <div >
@@ -135,7 +156,6 @@ export default function ContactsForm() {
                         <div className="birthday">
 
                             <MobileDateTimePicker
-
                                 value={contact.birthday}
                                 /* I found 2 ways to pass the value: interesting! */
                                 onChange={(newValue) => {
@@ -143,7 +163,6 @@ export default function ContactsForm() {
                                         ...contact,
                                         'birthday': newValue
                                     })
-
                                 }}
 
                                 label="birthday"
@@ -179,28 +198,25 @@ export default function ContactsForm() {
                             Category:
                         </label>
                         <fieldset className="categForm" >
-
                             {categories.map((cat, index) => {
                                 return (
                                     <li key={index}>
                                         <div className="categories-list">
-                                            <div className="left-section">
+                                            
                                                 <input
                                                     type="checkbox"
                                                     id={`custom-checkbox-${index}`}
                                                     name={cat}
                                                     value={cat}
-                                                    onChange={(e) => handleChangeCategory(e, index)}
+                                                    onChange={() => handleChangeCategory()}
                                                 />
                                                 <label htmlFor={`custom-checkbox-${index}`}>{cat}</label>
-                                            </div>
-                                            <div className="right-section"></div>
+                                           
+                                            
                                         </div>
                                     </li>
                                 );
                             })}
-
-
                         </fieldset>
 
                     </div>
@@ -208,15 +224,16 @@ export default function ContactsForm() {
                         <label for="avatar">
                             Avatar:
                         </label>
-                        <textarea name="avatar" value={contact.avatar} onChange={handleChange}
+
+                        <textarea name="avatar_url" value={contact.avatar_url} onChange={handleChange}
                         />
                     </div>
-
-
                     <input className="formButton" style={{ alignText: 'center', margin: 20 }} type="submit" value="Add contact" />
-                    <input className="formButton" style={{ alignText: 'center', margin: 20 }} type="submit" value="Delete contact" />
+                   
                 </div>
+                
             </form >
+            <button className="delButton"  onClick={()=>handleDelete(contactId)} >Delete</button>
         </div>
     )
 }

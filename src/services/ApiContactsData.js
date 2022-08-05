@@ -26,7 +26,7 @@ const ApiContactsData= (requestMethod, objToPass) => {
         /* console.log(data); */
       })
       .catch((e) => console.log(e.message));
-  }, [requestOptions]);
+  }, []);
   if (!calData) return null;
   return calData;
 };

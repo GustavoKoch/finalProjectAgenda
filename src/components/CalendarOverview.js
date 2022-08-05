@@ -105,7 +105,7 @@ export default function CalendarOverview() {
 
     const clickSend = () => {
         handleAddEvent();
-        /* setPopupDateTimePicker("Close"); */
+        setPopupDateTimePicker("Close");
     }
 
     const handleEventSelection = (e) => {
