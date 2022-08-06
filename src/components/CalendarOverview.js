@@ -123,9 +123,6 @@ export default function CalendarOverview() {
         setPopupDateTimePicker("Show");
     };
 
-  
-
-  
 
     if (selectedEvent)
         console.log("hello", selectedEvent.start);

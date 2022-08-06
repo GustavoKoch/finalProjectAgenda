@@ -6,7 +6,7 @@ import TextField from '@mui/material/TextField';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import ApiContactsData from "../services/ApiContactsData";
-import { useParams} from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 
 let categories = ['family', 'friend', 'other']
@@ -15,43 +15,27 @@ let categValues;
 let categValuesNoEmpty;
 let updatedContact;
 let allContacts;
-export default function ContactsForm({contactPicked, closeForm}) {
-
-    
-    
+export default function ContactsForm({ contactPicked, closeForm }) {
 
     const [contact, setContact] = useState(contactPicked);
     /* Useffect for rerendering again if initial state (contactPicked) changes */
     useEffect(() => {
         setContact(contactPicked)
     }, [contactPicked]);
-    console.log(contact);
+    /*    console.log(contact); */
 
-    const {contactId}=useParams();
+    const { contactId } = useParams();
 
     allContacts = ApiContactsData() || [];
-
     const handleChange = (e, newValue, birthNameday) => {
         /* For first and lastname */
-        console.log(e.target.value)
         if (!birthNameday) {
             const { name, value } = e.target;
 
-            setContact(prevContact => ({
-                ...prevContact,
-                [name]: value
-            }));
+            setContact(prevContact => ({ ...prevContact, [name]: value }));
             /* I found 2 ways to pass the value in dateTimePicker: interesting! */
-        } else {
-            setContact(prevContact => ({
-                ...prevContact,
-                [birthNameday]: newValue
-            }));
-        };
+        } else { setContact(prevContact => ({ ...prevContact, [birthNameday]: newValue })); };
     }
-
-
-
 
     const handleChangeCategory = () => {
         /* We check with every change wich category remains checked. For that we use map over the categories */
@@ -59,29 +43,15 @@ export default function ContactsForm({contactPicked, closeForm}) {
             const categCheck = document.getElementById(`custom-checkbox-${index}`).checked;
             const categName = document.getElementById(`custom-checkbox-${index}`).name;
 
-            if (categCheck) {
-                categObj['categ' + index] = categName;
-          
-            }
-            else {
-                categObj['categ' + index] = null;
-            }
+            if (categCheck) { categObj['categ' + index] = categName; }
+            else { categObj['categ' + index] = null; }
             categValues = Object.values(categObj);
-
             categValuesNoEmpty = categValues.filter(n => n)
             console.log(categValuesNoEmpty);
             return categValuesNoEmpty;
         })
     }
 
-    const updatedContact2 = {
-        "firstName": "Bugs",
-        "lastName": "Carrots22",
-        "birthday": "2022-12-03T21:00:00Z",
-        "nameday": "",
-        "category": ["friend", "family"],
-        "avatar_url": "https://findicons.com/files/icons/206/looney_tunes/300/bugs_bunny_country.png"
-    }
 
     const submitContact = (e) => {
         e.preventDefault();
@@ -93,28 +63,33 @@ export default function ContactsForm({contactPicked, closeForm}) {
         console.log(updatedContact);
         setContact(updatedContact);
         /*   ApiContactsData('POST', updatedContact);  */
-        if(!contactId)
-        postPutContactData('POST', updatedContact);
+
+        if (!contactId)
+            postPutContactData('POST', updatedContact);
         else
-        postPutContactData('PUT', updatedContact, contactId);
-        closeForm()
+            postPutContactData('PUT', updatedContact, contactId);
+
+        closeForm();
     }
 
-    const handleDelete=(id)=>{
-        const url = "https://projectberlin-backend.herokuapp.com/contacts/"+id;
-     
+    const handleDelete = (e) => {
+        /*  e.preventDefault(); */
+        const url = "https://projectberlin-backend.herokuapp.com/contacts/" + contactId;
 
-        fetch(url, {method:'DELETE', })
-            .then((res) => { res.json(); })
+        fetch(url, { method: 'DELETE', })
+            .then((res) => { res.text(); })
             .catch((e) => console.log(e.message));
+
+        const timer = setTimeout(() => { closeForm(); }, 50);
+        timer();
+        clearTimeout(timer);
+
     }
-    
 
-
-    const postPutContactData = (requestMethod, objToPass, id) => {     
+    const postPutContactData = (requestMethod, objToPass, id) => {
         let extUrl = "contacts";
-        if (requestMethod==='PUT')
-        extUrl = "contacts"+"/"+id;
+        if (requestMethod === 'PUT')
+            extUrl = "contacts" + "/" + id;
 
         const url = `https://projectberlin-backend.herokuapp.com/${extUrl}`;
 
@@ -132,23 +107,23 @@ export default function ContactsForm({contactPicked, closeForm}) {
 
     return (
         <div >
-            <form className="containerForm" onSubmit={(e) => submitContact(e)}>
-                <legend>Form</legend>
+            <form onSubmit={(e) => submitContact(e)}>
+                <legend id='wrappingTitle'>Add/Edit your contact</legend>
                 <div className="container1">
                     <fieldset className="firstName">
                         <label for="firstName">
-                            FirstName:
+                            FirstName
                         </label>
                         <textarea name="firstName" value={contact.firstName}
                             onChange={handleChange} />
                     </fieldset>
-                    <div className="lastName">
+                    <fieldset className="lastName">
                         <label for="lastName">
                             LastName
                         </label>
                         <textarea name="lastName" value={contact.lastName}
                             onChange={handleChange} />
-                    </div>
+                    </fieldset>
                 </div>
 
                 <div className="container2">
@@ -165,7 +140,7 @@ export default function ContactsForm({contactPicked, closeForm}) {
                                     })
                                 }}
 
-                                label="birthday"
+                                label="Birthday"
                                 onError={console.log}
                                 minDate={new Date('2018-01-01T00:00')}
                                 inputFormat="yyyy/MM/dd hh:mm a"
@@ -176,7 +151,6 @@ export default function ContactsForm({contactPicked, closeForm}) {
                         <div className="nameday">
 
                             <MobileDateTimePicker
-
                                 value={contact.nameday}
                                 /* I found 2 ways to pass the value: interesting! */
                                 onChange={(newValue) => handleChange('', newValue, 'nameday')}
@@ -193,47 +167,46 @@ export default function ContactsForm({contactPicked, closeForm}) {
                     </LocalizationProvider>
                 </div>
                 <div className="container3">
-                    <div className="category">
-                        <label for="category">
-                            Category:
-                        </label>
+                    <fieldset className="category">
+                        <label for="category" id='category'>Category</label>
                         <fieldset className="categForm" >
                             {categories.map((cat, index) => {
                                 return (
                                     <li key={index}>
-                                        <div className="categories-list">
-                                            
-                                                <input
-                                                    type="checkbox"
-                                                    id={`custom-checkbox-${index}`}
-                                                    name={cat}
-                                                    value={cat}
-                                                    onChange={() => handleChangeCategory()}
-                                                />
-                                                <label htmlFor={`custom-checkbox-${index}`}>{cat}</label>
-                                           
-                                            
+                                        <div >
+                                            <input
+                                                type="checkbox"
+                                                id={`custom-checkbox-${index}`}
+                                                name={cat}
+                                                value={cat}
+                                                onChange={() => handleChangeCategory()}
+                                            />
+                                            <label htmlFor={`custom-checkbox-${index}`}>{cat}</label>
                                         </div>
                                     </li>
                                 );
                             })}
                         </fieldset>
-
-                    </div>
-                    <div className="avatar">
-                        <label for="avatar">
-                            Avatar:
-                        </label>
-
-                        <textarea name="avatar_url" value={contact.avatar_url} onChange={handleChange}
-                        />
-                    </div>
-                    <input className="formButton" style={{ alignText: 'center', margin: 20 }} type="submit" value="Add contact" />
-                   
+                    </fieldset>
                 </div>
-                
+                <div className="container4">
+                    <fieldset className="avatar">
+                        <label for="avatar">Avatar/Pic (Url)</label>
+                        <textarea name="avatar" value={contact.avatar_url}
+                            onChange={handleChange} />
+                    </fieldset>
+
+                </div>
+
+
+
+
             </form >
-            <button className="delButton"  onClick={()=>handleDelete(contactId)} >Delete</button>
+            <input className="submitButton" type="submit" value="Add/Modify contact" />
+            <button className="delButton" onClick={(e) => handleDelete(e)} >
+               
+                <svg xmlns="http://www.w3.org/2000/svg" height="34" viewBox="0 0 24 24" width="34"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM8 9h8v10H8V9zm7.5-5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+                </button>
         </div>
     )
 }

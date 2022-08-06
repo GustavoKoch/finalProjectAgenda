@@ -1,5 +1,4 @@
 .container {
-    display: flex;
     border: 3px solid lightgrey;
     background-color: white;
     border-radius: 25px;
@@ -7,6 +6,7 @@
     text-align: center;
 }
 
+/* ------------TITLE------------ */
 #contactsTitle {
     display: flex;
     font-size: 3rem;
@@ -16,13 +16,13 @@
     margin: 1rem;
     height: 10rem;
 }
-.description{margin:1rem;text-align: center;width:25rem;}
-.contactsForm ul{text-align: center; display:flex; flex-direction: column;align-content: center;align-items: center;}
 
 #contactsTitle h1 {
     margin: auto 5rem;
+    display: block;
 }
 
+/* BUTTON for displaying the form */
 #contactsTitle .bigButton {
     background-color: rgba(250, 235, 215, 1);
     font-weight: 800;
@@ -34,82 +34,159 @@
 }
 
 #contactsTitle .bigButton .MuiSvgIcon-root {
-
     font-weight: 800;
     font-size: 3rem;
     width: 3rem;
     height: 3rem;
+}
 
+/*------------------------------------------------- */
+/* contacts+form */
+.contactsAndForm {
+    display: flex;
+ /*    border: 1px solid black; */
 }
 
 
-.contactsContainer {
+/* CONTACTS: container for contacts */
+.contacts {
     display: flex;
     flex-direction: column;
-
     width: 40%;
     text-align: center;
     align-items: center;
     align-content: center;
     justify-content: center;
     justify-items: center;
-
-    padding: 3rem;
+    padding: 1rem;
 }
 
+.contacts .MuiAvatar-rounded {
+    border-radius: 100px;
+}
+
+.MuiAvatar-root.MuiAvatar-rounded.makeStyles-avatar-3 {
+    height: 80px;
+    width: 80px
+}
+
+.MuiCardContent-root.makeStyles-content-2 {
+    padding: 1px;
+}
+
+.MuiPaper-root.MuiCard-root.makeStyles-card-1.MuiPaper-elevation1.MuiPaper-rounded {
+    border-radius: 100px;
+    border-top-right-radius: 10px;
+    height: 80px;
+}
+
+
+/*FORM: container for the contacts form ---------*/
 .contactsForm {
+    display: flex;
     text-align: center;
     margin: 5rem 0.5rem;
-    width: 60%;
-}
-
-.contactsForm {}
-
-.contactList {
-    margin: 1rem auto;
-    text-align: center;   
-    width: 100%;   
+    width: 48%;
     border: 3px solid lightgrey;
-    background-color: white;
-    border-radius: 25px;
-
+    border-radius: 15px;
+    justify-content: center;
+    justify-items: center;
 }
 
-.contactList textarea {
-    margin: 5px 0;
-    padding: auto;
-    width: 60%;
-    height: auto;
-    border: 3px solid lightgrey;
-    background-color: white;
-    border-radius: 25px;
-    display: table-cell; vertical-align: middle;
-    font-size: 1rem;
-}
-.container3, .container2{
-    display:flex;
+.container1,
+.container3,
+.container2,
+.container4 {
+    display: flex;
     align-items: center;
     align-content: center;
     text-align: center;
-    margin:2rem;
-}
-.firstName, .LastName{width: 30%;}
-.Category, .Avatar{
-    text-align: center;
-    display: flex;
-    margin:auto;
-    justify-content: center;
-}
-.Category textarea , .Avatar textarea {
-    margin: 1px 0;
-    width: 20%;
-    height: 3rem;
-    border: 3px solid lightgrey;
-    background-color: white;
-    border-radius: 25px;
+    margin: 2rem auto;
+    justify-content: space-around;
 }
 
-legend {
-    padding: 8px;
-    background-color: white;
+.container1 {width: 100%;}
+
+.container1 textarea {width: 10rem;}
+
+.firstName,
+.lastName,
+.avatar {
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    justify-content: center;
+    width: 30%;
 }
+
+.avatar {
+    width: 20rem;
+    height: 5rem;
+}
+
+/* Labels in the fields */
+.firstName label,
+.lastName label,
+.avatar label {
+    margin-bottom: -8px;
+    margin-left: 8px;
+    background-color: white;
+    z-index: 10;
+    width: 70px;
+    padding: 1px;
+    font-size: 0.8rem;
+    color:grey;
+}
+
+.avatar label {width: 99px;}
+
+.avatar textarea {height: 5rem;}
+
+#wrappingTitle {
+    margin:auto;
+    margin-top: -10px;
+    
+    background-color: white;
+    width: 20px;
+    color: grey;
+    width: 200px;
+}
+
+.delButton,
+.submitButton {
+    margin: 1rem;
+    font-size: 1rem;
+    border: 3px solid lightgrey;
+    border-radius: 15px;
+    padding: 10px;
+}
+
+/* Categories in the form */
+.categForm {
+    display: flex;
+    list-style: none;
+    margin-top: -7px;
+    border: 2px solid lightgrey;
+    height: 40px;
+    padding: 15px;
+    border-radius: 15px;}
+
+.categForm li {
+    margin: 15px 1px;
+    text-align: center;
+}
+
+.category label {
+    background-color: white;
+    padding: 8px;font-size: 0.8rem;}
+#category{color:grey}
+
+/* all textareas round corners */
+textarea {
+    padding:10px 5px;
+    border-radius: 15px;
+    border: 2px solid lightgrey;
+    height: 1rem;
+}
+
+/* -------------------------------------- */
