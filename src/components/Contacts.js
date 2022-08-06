@@ -111,8 +111,8 @@ export default function Contacts() {
     navigate('/contacts');
     setPopupContactsForm(!popupContactsForm)
   }
-  console.log(popupContactsForm)
-  console.log(allContacts2)
+/*   console.log(popupContactsForm)
+  console.log(allContacts2) */
 
   const classes = useStyles();
 

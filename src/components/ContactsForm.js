@@ -28,12 +28,14 @@ export default function ContactsForm({ contactPicked, closeForm }) {
 
     allContacts = ApiContactsData() || [];
     const handleChange = (e, newValue, birthNameday) => {
-        /* For first and lastname */
+        /* For first and lastname or Avatar */
+        console.log(e);
+        console.log(newValue);
+        console.log(birthNameday);
         if (!birthNameday) {
             const { name, value } = e.target;
-
             setContact(prevContact => ({ ...prevContact, [name]: value }));
-            /* I found 2 ways to pass the value in dateTimePicker: interesting! */
+         /* For birth and nameday */   /* I found 2 ways to pass the value in dateTimePicker: interesting! */
         } else { setContact(prevContact => ({ ...prevContact, [birthNameday]: newValue })); };
     }
 
@@ -191,22 +193,18 @@ export default function ContactsForm({ contactPicked, closeForm }) {
                 </div>
                 <div className="container4">
                     <fieldset className="avatar">
-                        <label for="avatar">Avatar/Pic (Url)</label>
-                        <textarea name="avatar" value={contact.avatar_url}
+                        <label for="avatar_url">Avatar/Pic (Url)</label>
+                        <textarea name="avatar_url" value={contact.avatar_url}
                             onChange={handleChange} />
                     </fieldset>
 
                 </div>
-
-
-
-
+              <input className="submitButton" type="submit" value="Add/Modify contact" />  
             </form >
-            <input className="submitButton" type="submit" value="Add/Modify contact" />
-            <button className="delButton" onClick={(e) => handleDelete(e)} >
-               
+            
+            <button className="delButton" onClick={(e) => handleDelete(e)} >               
                 <svg xmlns="http://www.w3.org/2000/svg" height="34" viewBox="0 0 24 24" width="34"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM8 9h8v10H8V9zm7.5-5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
-                </button>
+            </button>
         </div>
     )
 }
