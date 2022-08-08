@@ -115,14 +115,14 @@ export default function ContactsForm({ contactPicked, closeForm }) {
                 <legend id='wrappingTitle'>Add/Edit your event</legend>
                 <div className="container1">
                     <fieldset className="firstName">
-                        <label for="firstName">
+                        <label htmlFor="firstName">
                             FirstName
                         </label>
                         <textarea name="firstName" value={contact.firstName}
                             onChange={handleChange} />
                     </fieldset>
                     <fieldset className="lastName">
-                        <label for="lastName">
+                        <label htmlFor="lastName">
                             LastName
                         </label>
                         <textarea name="lastName" value={contact.lastName}
@@ -172,7 +172,7 @@ export default function ContactsForm({ contactPicked, closeForm }) {
                 </div>
                 <div className="container3">
                     <fieldset className="categoryContact">
-                        <label for="category" id='categoryContact'>Category</label>
+                        <label htmlFor="category" id='categoryContact'>Category</label>
                         <fieldset className="categForm" >
                             {categories.map((cat, index, contact) => {
                                 return (
@@ -197,7 +197,7 @@ export default function ContactsForm({ contactPicked, closeForm }) {
                 </div>
                 <div className="container4">
                     <fieldset className="avatar">
-                        <label for="avatar_url">Avatar/Pic (Url)</label>
+                        <label htmlFor="avatar_url">Avatar/Pic (Url)</label>
                         <textarea name="avatar_url" value={contact.avatar_url}
                             onChange={handleChange} />
                     </fieldset>

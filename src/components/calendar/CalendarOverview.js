@@ -67,7 +67,7 @@ export default function CalendarOverview() {
         .then((res) => res.json())
         .then((data) => {
           setAllEvents(data);
-          console.log(data);
+        /*   console.log(data); */
         })
         .catch((e) => console.log(e.message));
     }, [popupEventsForm]);
@@ -78,25 +78,20 @@ export default function CalendarOverview() {
     function handleAddEvent() {
         setAllEvents([...allEvents, newEvent]);
     }
-    /* console.log(allEvents); */
+   
     const handleClickCalendar = (e) => {
         /*    console.log(e); */
     }
 
-    const HandleSlotSelection = (e) => {
-        console.log(e)
-    }
-
-
-/*     console.log("allCalendarItems!!!!!", allCalendarItems); */
+  
 
     const eventStyleGetter = () => { }
-    const selectDay = (slotInfo) => {
 
+    const selectDay = (slotInfo) => {
         setSelectedEvent(
             {
                 "activityList": [],
-                "category":null,
+                "category":"",
                 "contacts": [],
                 "end": slotInfo.start,
                 "img_url": '',
@@ -106,7 +101,9 @@ export default function CalendarOverview() {
             }
         );
         console.log(selectedEvent);
+        console.log(slotInfo.start);
         setPopupEventsForm(true);
+        navigate("/calendar");
     }
 
     const sendRequestandCloseForm = () => {

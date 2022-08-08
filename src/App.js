@@ -2,17 +2,15 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/navbar/Navbar.js";
-
 import Home from "./components/home/Home.js";
-
 import "./App.css"
 import Today from "./components/Today.js";
 
 import CalendarOverview from "./components/calendar/CalendarOverview";
 import Lists from "./components/Lists.js";
 import Contacts from "./components/contacts/Contacts.js";
-import VacationPlaning from "./components/VacationPlaning.js";
-import Birthdays from "./components/Birthdays.js";
+import VacationPlaning from "./components/vacationPlaning/VacationPlaning.js";
+import Birthdays from "./components/birthday/Birthdays.js";
 
 
 

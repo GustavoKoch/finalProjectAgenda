@@ -21,15 +21,10 @@ import { Checkbox } from "@mui/material";
 export default function EventForm({ closeForm, dataPicked }) {
 
   const [event, setEvent] = useState(dataPicked);
-  const [title, setTitle] = useState(dataPicked.title);
-  const [description, setDescription] = useState(dataPicked.description);
-  const [value1, setValue1] = useState(dataPicked.start);
-  const [value2, setValue2] = useState(dataPicked.end);
-  const [category, setCategory] = useState(dataPicked.category);
   const [contacts, setContacts] = useState(dataPicked.contacts);
   const [popupChangeContacts, setPopupChangeContacts] = useState(false);
 
-/*   console.log("Hi datepicked", dataPicked.category); */
+  /*   console.log("Hi datepicked", dataPicked.category); */
 
   const { calendarItemId } = useParams();
   /* const categ = ['Social events', 'Reminders', 'Birthdays', 'Vacation', 'Sports', 'Personal'] */
@@ -37,51 +32,49 @@ export default function EventForm({ closeForm, dataPicked }) {
 
   const passEvent = (e) => {
     e.preventDefault();
-    postPutCalenderData('POST', event);
+    if (!calendarItemId)
+      postPutCalenderData('POST', event, "");
+    if (calendarItemId)
+      postPutCalenderData('PUT', event, calendarItemId);
     closeForm();
   }
 
   const postPutCalenderData = (requestMethod, objToPass, id) => {
-   
+
     const extUrl = "calendar";
-    const url = `https://projectberlin-backend.herokuapp.com/${extUrl}`+"/"+id;
+    const url = `https://projectberlin-backend.herokuapp.com/${extUrl}` + "/" + id;
 
     const requestOptions = {
       method: requestMethod,
-      headers: { 'Content-Type': 'application/json'},
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(objToPass)
     }
 
     fetch(url, requestOptions)
-    .then((res) => res.json())
-    .then((data) => {
-      /* setEvent(data); */
-      console.log(data);
-    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+      })
       .catch((e) => console.log(e.message));
   }
 
+  /* For editing the contacts */
   let allContacts = ApiContactsData() || [];
 
-  console.log(event.contacts) 
-  
+
   const handleChangeContacts = (e) => {
     console.log(e.target.checked)
     const contactsChecked = document.querySelectorAll("input[type=checkbox]:checked");
-    const contactsUpdated=Array.from(contactsChecked).map((x)=>{return x.name})
-    setEvent({...event, "contacts": contactsUpdated})
+    const contactsUpdated = Array.from(contactsChecked).map((x) => { return x.name })
+    setEvent({ ...event, "contacts": contactsUpdated })
     setContacts(contactsUpdated);
   }
-  console.log(contacts)
-  console.log(event)
-  const handleChangeCategory = () => {
 
-  }
 
   const auxEditContact = (contact) => {
-    const res=(JSON.stringify(event.contacts)).includes(JSON.stringify(contact));
+    const res = (JSON.stringify(event.contacts)).includes(JSON.stringify(contact));
     return res;
-   }
+  }
 
 
   const deleteCalenderItem = (id) => {
@@ -100,30 +93,27 @@ export default function EventForm({ closeForm, dataPicked }) {
 
 
   useEffect(() => {
-    const url = "https://projectberlin-backend.herokuapp.com/calendar/" + calendarItemId;
-    
-    fetch(url, { method: 'GET', headers: { 'Content-Type': 'application/json' }})
-    .then((res) => res.json())
-    .then((data) => {
-      setEvent(data[0]);
-      console.log(data[0]);
-    })
-      .catch((e) => console.log(e.message));
-    
+    if (calendarItemId) {
+      const url = "https://projectberlin-backend.herokuapp.com/calendar/" + calendarItemId;
+
+      fetch(url, { method: 'GET', headers: { 'Content-Type': 'application/json' } })
+        .then((res) => res.json())
+        .then((data) => {
+          setEvent(data[0]);
+          console.log(data[0]);
+        })
+        .catch((e) => console.log(e.message));
+    }
+    else
+    setEvent(dataPicked)
   }, [dataPicked, popupChangeContacts]);
 
-  const handleSubmitContacts = (e) => { 
+  const handleSubmitContacts = (e) => {
     e.preventDefault()
-   
-    /* setEvent({...event, 'contacts': contacts}) */
-    
-  
     postPutCalenderData('PUT', event, calendarItemId);
     setTimeout(() => { setPopupChangeContacts(!popupChangeContacts); }, 150);
- 
-    
-   /*  closeForm(); */ 
-}
+    /*  closeForm(); */
+  }
 
   return (
     <>
@@ -131,14 +121,14 @@ export default function EventForm({ closeForm, dataPicked }) {
         <legend id='wrappingTitleTop'>Add/Edit your contact</legend>
         <div className='eventForm'>
           <fieldset className='title'>
-            <label for="title">Titel:</label>
+            <label htmlFor="title">Title:</label>
             <textarea name="title" value={event.title}
-              onChange={e => setTitle(e.target.value)} />
+              onChange={(e) => setEvent({ ...event, [e.target.name]: e.target.value })} />
           </fieldset>
           <div className='description'>
-            <label for="description">Description:</label>
+            <label htmlFor="description">Description:</label>
             <textarea name="description" value={event.description}
-              onChange={e => setDescription(e.target.value)} />
+              onChange={(e) => setEvent({ ...event, [e.target.name]: e.target.value })} />
           </div>
         </div>
 
@@ -149,9 +139,8 @@ export default function EventForm({ closeForm, dataPicked }) {
               <MobileDateTimePicker
                 /* style={styleDateTimePicker} */
                 value={event.start}
-                onChange={(newValue) => {
-                  setValue1(newValue);
-                }}
+                onChange={(e) => setEvent({ ...event, "start": e.target.value })}
+
 
                 label="Starts"
                 onError={console.log}
@@ -164,9 +153,7 @@ export default function EventForm({ closeForm, dataPicked }) {
               <MobileDateTimePicker
                 /* style={styleDateTimePicker} */
                 value={event.end}
-                onChange={(newValue) => {
-                  setValue2(newValue);
-                }}
+                onChange={(e) => setEvent({ ...event, "end": e.target.value })}
 
                 label="Ends"
                 onError={console.log}
@@ -187,7 +174,7 @@ export default function EventForm({ closeForm, dataPicked }) {
               {/*         <input className={event.category ? "filled" : "pleaseFill"} name="category" type='dropdown' value={event.category}
                 onChange={handleChangeCategory} /> */}
 
-              <select onChange={handleChangeCategory} name="categories" id="categories" value={event.category}>
+              <select onChange={(e) => { console.log(e.target.value); setEvent({ ...event, "category": e.target.value }) }} name="categories" id="categories" value={event.category?event.category:""}>
                 <option value="Social events">Social events</option>
                 <option value="Reminders">Reminders</option>
                 <option value="Birthdays">Birthdays</option>
@@ -220,7 +207,7 @@ export default function EventForm({ closeForm, dataPicked }) {
 
               </ul>}
 
-              {popupChangeContacts &&<ul className="avatarEventCalenderContainer" style={{ alignText: 'center', margin: 10 }}>
+              {popupChangeContacts && <ul className="avatarEventCalenderContainer" style={{ alignText: 'center', margin: 10 }}>
                 {event && allContacts.map((contact, index) => {
                   return (
 
@@ -242,9 +229,9 @@ export default function EventForm({ closeForm, dataPicked }) {
 
 
               <div className="editButtonCalender">
-                <IconButton size="small" onClick={(e)=>handleSubmitContacts(e)}>                  
-                  {popupChangeContacts&&<img src="https://www.svgrepo.com/show/226357/lock.svg" />}
-                  {!popupChangeContacts&&<img src="https://www.svgrepo.com/show/226363/lock.svg"/>}
+                <IconButton size="small" onClick={(e) => handleSubmitContacts(e)}>
+                  {popupChangeContacts && <img src="https://www.svgrepo.com/show/226357/lock.svg" />}
+                  {!popupChangeContacts && <img src="https://www.svgrepo.com/show/226363/lock.svg" />}
                 </IconButton>
               </div>
             </fieldset>
@@ -254,10 +241,10 @@ export default function EventForm({ closeForm, dataPicked }) {
 
         </LocalizationProvider>
       </form>
-      <button className="delButton" onClick={deleteCalenderItem} >
+      <button className="delButton" onClick={() => deleteCalenderItem(calendarItemId)} >
         <svg xmlns="http://www.w3.org/2000/svg" height="34" viewBox="0 0 24 24" width="34"><path d="M0 0h24v24H0V0z" fill="none" /><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM8 9h8v10H8V9zm7.5-5l-1-1h-5l-1 1H5v2h14V4z" /></svg>
       </button>
-      {popupChangeContacts && <ul className="avatarEventCalenderContainer" style={{ alignText: 'center', margin: 10 }}>Hello!</ul>}
+
     </>
   );
 }
