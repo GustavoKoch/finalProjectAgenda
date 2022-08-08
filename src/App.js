@@ -3,7 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/navbar/Navbar.js";
 import Home from "./components/home/Home.js";
 import "./App.css";
-import Today from "./components/Today.js";
+import Today from "./components/Today/Today.js";
 
 import CalendarOverview from "./components/calendar/CalendarOverview";
 import Lists from "./components/Lists.js";
