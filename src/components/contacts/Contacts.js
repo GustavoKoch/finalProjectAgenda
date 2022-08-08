@@ -2,11 +2,12 @@
 import { makeStyles } from '@material-ui/core/styles';
 import {Card, CardContent, Avatar, Box, Typography, IconButton} from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
-import ApiContactsData from "../../services/ApiContactsData";
+
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import './Contacts.css';
 import ContactsForm from './ContactsForm'
+
 
 
 const useStyles = makeStyles(theme => ({
@@ -46,12 +47,11 @@ export default function Contacts() {
 
   const [popupContactsForm, setPopupContactsForm] = useState();
   const [selectedContact, setSelectedContact] = useState();
+ 
   const navigate = useNavigate()
 
- /*  let allContacts2 = ApiContactsData() || []; */
 
   const [allContacts, setAllContacts] = useState();
-  /*  console.log(popupContactsForm) */
 
   const extUrl = "contacts";
   const url = `https://projectberlin-backend.herokuapp.com/${extUrl}`;
@@ -65,7 +65,7 @@ export default function Contacts() {
       .then((res) => res.json())
       .then((data) => {
         setAllContacts(data);
-        console.log(data);
+       /*  console.log(data); */
       })
       .catch((e) => console.log(e.message));
   }, [popupContactsForm]);
@@ -104,9 +104,9 @@ export default function Contacts() {
     navigate('/contacts');
     setPopupContactsForm(!popupContactsForm)
   }
-/*   console.log(popupContactsForm)
-  console.log(allContacts2) */
 
+
+ 
   const classes = useStyles();
 
   return (

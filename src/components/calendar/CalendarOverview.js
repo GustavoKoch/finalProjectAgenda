@@ -148,15 +148,17 @@ export default function CalendarOverview() {
         /* handleEventSelection(); */
     }, [selectedEvent]);
     return (
-        <div >
+        <div className="bigCalendarContainer" >
 
             <div>
                 {popupEventsForm && <div className="mainContainerForm"><EventForm dataPicked={selectedEvent} closeForm={sendRequestandCloseForm} /></div>}
-            </div>
-            {allEvents && <div className="solidBackground" onClick={(e) => handleClickCalendar(e)}>
+            </div >
+            <h1><span>Big calendar</span> 📅</h1>
+            {allEvents && <div  onClick={(e) => handleClickCalendar(e)}>
                 <Calendar
+                    className="bigCalendar"
                     localizer={localizer}
-                    events={allEvents} startAccessor="start" endAccessor="end" style={{ height: 1000, margin: "50px" }}
+                    events={allEvents} startAccessor="start" endAccessor="end" 
                     onSelectSlot={(slotInfo) => { selectDay(slotInfo) }}
                     onSelectEvent={handleEventSelection}
                     selectable

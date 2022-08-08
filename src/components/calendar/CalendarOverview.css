@@ -3,6 +3,18 @@ input,
 select {
     border: none;
 }
+.bigCalendarContainer{
+    width: 1000px;
+    margin: 50px 0 auto auto;
+}
+.bigCalendarContainer h1 span{text-align: end;font-size: 3rem;font-style: italic;color:grey;font-weight: 800;}
+.bigCalendarContainer h1 {margin:50px 0; font-size: 3rem;color:grey;font-weight: 800;font-style: normal;}
+
+.bigCalendar{
+    width: 1000px;
+    height: 800px;
+    
+}
 
 .rbc-month-view {
     border-radius: 25px;
@@ -41,9 +53,7 @@ select {
     ;
 }
 
-.rbc-calendar {
-    height: 12000px;
-}
+
 
 .rbc-day-bg.rbc-off-range-bg {}
 

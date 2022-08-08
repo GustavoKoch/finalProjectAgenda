@@ -1,0 +1,14 @@
+.birthdayMainContainer{
+    display:flex;
+    justify-content: right;
+    margin-top: 50px;
+    margin-right:100px;
+}
+.birthdayWrappingContainer h1 span{font-size: 3rem;font-style: italic;color:grey;font-weight: 800;text-align: end;}
+.birthdayWrappingContainer h1 {font-size: 3rem;font-style: normal;color:grey;font-weight: 800;margin-top:50px;margin-right: 200px;text-align: end;}
+
+.birthdayCalender{
+    height: 600px;
+    width:800px;
+    margin:0;
+}

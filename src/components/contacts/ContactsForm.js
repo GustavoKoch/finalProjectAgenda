@@ -6,6 +6,7 @@ import TextField from '@mui/material/TextField';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import ApiContactsData from "../../services/ApiContactsData";
+
 import { useParams } from "react-router-dom";
 
 
@@ -21,10 +22,14 @@ export default function ContactsForm({ contactPicked, closeForm }) {
     /* Useffect for rerendering again if initial state (contactPicked) changes */
     useEffect(() => {
         setContact(contactPicked)
+
     }, [contactPicked]);
-       console.log(contact);
+  /*      console.log(contact); */
+
+
 
     const { contactId } = useParams();
+   
 
     const allContacts = ApiContactsData() || [];
     const handleChange = (e, newValue, birthNameday) => {

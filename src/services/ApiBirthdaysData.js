@@ -1,35 +1,35 @@
 import { useState, useEffect } from "react";
 
 
-const ApiContactsData = (requestMethod, objToPass) => {
+const ApiBirthdaysData = () => {
 
   /* console.log(originalName); */
 
 
-  const [allContacts, setAllContacts] = useState();
+  const [calData, setCalData] = useState();
 
   /* const pokeName = originalName.toLowerCase(); */
-  const extUrl = "contacts";
+  const extUrl = "calendar/birthdays";
   const url = `https://projectberlin-backend.herokuapp.com/${extUrl}`;
+  /* const url2 = `http://localhost:3031/${extUrl}`; */
 
   const requestOptions = {
-    method: requestMethod,
+    method: 'GET',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(objToPass)
+   
   }
 
   useEffect(() => {
     fetch(url, requestOptions)
       .then((res) => res.json())
       .then((data) => {
-        setAllContacts(data);
-        /* console.log(data); */
+        setCalData(data);
+        console.log(data); 
       })
       .catch((e) => console.log(e.message));
   }, []);
-  if (!allContacts) return null;
-  return allContacts;
+  if (!calData) return null;
+  return calData;
 };
 
-
-export default ApiContactsData;
+export default ApiBirthdaysData;

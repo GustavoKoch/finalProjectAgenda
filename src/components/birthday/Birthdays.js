@@ -4,7 +4,8 @@ import { Calendar, dateFnsLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { getDay, parse, startOfWeek, format, set } from "date-fns";
 import ApiContactsData from "../../services/ApiContactsData";
-import ApiCalenderData from "../../services/ApiCalenderData";
+import ApiBirthdaysData from "../../services/ApiBirthdaysData";
+import "./birthday.css"
 
 
 
@@ -28,39 +29,69 @@ export default function Birthdays() {
 
     const [allBirthdays, setAllBirthdays] = useState();
 
-    let birthdays2 = ApiCalenderData() || [];
+    let birthdays2 = ApiBirthdaysData() || [];
     let allContacts = ApiContactsData() || [];
-    console.log(birthdays2);
-    let birthdays;
-    /* For each contact 1 Birthday */
-    if (allContacts) {
-        birthdays = allContacts.map((contact) => (
-            {
-                category: "Birthdays",
-                contacts: [],
-                end: contact.birthday,
-                img_url: '',
-                start: contact.birthday,
-                title: '',
-                description: '',
-                activityList: []
-            }
+
+
+    const allBirthdays2=[
+        {
+            "start": "2022-08-04T00:00:00Z",
+            "end":"2022-08-04T00:00:00Z",
+            "title":"Birthday", 
+            "description": "Ask before if they have also Vegan meals",
+            "activityList":[],    
+            "contacts":[],  
+            "category":"Birthdays",
+            "img_url":"https://popmenucloud.com/xrpblwcd/85ba676e-8969-4793-ba64-46c7724547be.jpg"
+        },
+        {
+            "start": "2022-08-05T00:00:00Z",
+            "end":"2022-08-05T00:00:00Z",
+            "title":"Birthday", 
+            "description": "training in the Park",
+            "activityList":[],    
+            "contacts":[],  
+            "category":"Birthdays",
+            "img_url":"https://img.theculturetrip.com/1440x/smart/wp-content/uploads/2018/11/p9k2ym.jpg"
+        }
+    ]
+
+   /*  console.log(birthdays2); */
     
-        ))
-        console.log(birthdays);
-       
-    }
+   let birthdays;
+   
+     if (allContacts.length>0) {
+       birthdays = allContacts.map(contact =>{
+            return {
+            "start": contact.birthday,
+            "end":contact.birthday,
+            "title":contact.firstName, 
+            "description": contact.firstName,
+            "activityList":[], 
+            "category":"Birthdays",
+            "img_url":contact.avatar_url
+        }})  
+    } 
+    console.log(birthdays)
+    if(allBirthdays){ }
+    
+    useEffect(() => {
+     
+    }, []);
+
+    console.log(birthdays);
+
     const eventStyleGetter = () => { }
     const handleEventSelection = () => { }
     const selectDay = (day) => { }
 
     return (
-        <div >
-            Hello Birthdays!
-            {allBirthdays && <div className="solidBackground">
-                <Calendar
+        <div className="birthdayWrappingContainer" >
+            <h1><span>Birthday calendar</span> 🎂</h1>
+            {birthdays&& <div className="birthdayMainContainer">
+                <Calendar className="birthdayCalender"
                     localizer={localizer}
-                    events={allBirthdays} startAccessor="start" endAccessor="end" style={{ height: 1000, margin: "50px" }}
+                    events={birthdays} startAccessor="start" endAccessor="end" 
                     onSelectSlot={(slotInfo) => { selectDay(slotInfo) }}
                     onSelectEvent={handleEventSelection}
                     selectable

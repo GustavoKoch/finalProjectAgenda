@@ -1,26 +1,18 @@
 
 
 
-
-/* .Home {
-    width: 2300px;
-    margin: 100px 100px;
-    border: 3px solid rgb(255, 255, 255);
-    border-radius: 25px;
-    background-color: antiquewhite;
-    opacity: 0.8;
-} */
-
-
 .menuHome {
+    display: flex;
+    flex-direction: column;
     width: 250px;
-    margin: 50px 50px;
+    margin: 90px 50px;
     position: relative;
     z-index: 110;
     background-color: rgb(167, 238, 214);
     opacity: 0.9;
     border: 3px solid rgb(255, 255, 255);
     border-radius: 25px;
+    align-content: space-between;
 }
 
 
@@ -32,17 +24,13 @@
    font-size:10px;
 }
 
-
 .menuHome button {
     height: 80px;
     width: 200px;
     opacity: 1;
 }
 
-.menuHome div {
-    height: 70px;
-    width: 70px;
-}
+
 
 .menuHome .birthdaysMenu {
     background-color: rgba(58, 14, 253, 0.836);
