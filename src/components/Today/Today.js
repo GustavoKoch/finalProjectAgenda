@@ -124,7 +124,7 @@ export default function Contacts() {
         <div className="contactsAndForm">
           <div className="contacts">
             {allCalendarEvents &&
-              allCalendarEvents.map((calendarEvent, index) => (
+              allCalendarEvents.filter.map((calendarEvent, index) => (
                 <Card
                   key={index}
                   onClick={() => selectContact(calendarEvent)}
