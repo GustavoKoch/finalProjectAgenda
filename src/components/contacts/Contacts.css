@@ -148,7 +148,7 @@
     
     background-color: white;
     width: 20px;
-    color: grey;
+    color: lightgrey;
     width: 200px;
 }
 
@@ -176,13 +176,14 @@
     text-align: center;
 }
 
-.category label {
+.categoryContact label {
     background-color: white;
-    padding: 8px;font-size: 0.8rem;}
-#category{color:grey}
+    padding: 8px;font-size: 1rem;}
+
+#categoryContact{color:grey}
 
 /* all textareas round corners */
-textarea {
+.sectionContacts textarea {
     padding:10px 5px;
     border-radius: 15px;
     border: 2px solid lightgrey;

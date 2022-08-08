@@ -1,16 +1,16 @@
 
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import Navbar from "./components/Navbar.js";
-import Footer from "./components/Footer.js";
-import Home from "./components/Home.js";
-import ListApp from "./components/ListApp.js";
+import Navbar from "./components/navbar/Navbar.js";
+
+import Home from "./components/home/Home.js";
+
 import "./App.css"
 import Today from "./components/Today.js";
-import CalendarView from "./components/CalendarView";
-import CalendarOverview from "./components/CalendarOverview";
+
+import CalendarOverview from "./components/calendar/CalendarOverview";
 import Lists from "./components/Lists.js";
-import Contacts from "./components/Contacts.js";
+import Contacts from "./components/contacts/Contacts.js";
 import VacationPlaning from "./components/VacationPlaning.js";
 import Birthdays from "./components/Birthdays.js";
 
@@ -19,7 +19,7 @@ import Birthdays from "./components/Birthdays.js";
 import Todo from "./components/Todo.js";
 import { useState, useEffect } from "react";
 
-// import Todo from "./Todo.js"
+
 
 export default function App() {
 
@@ -27,11 +27,14 @@ export default function App() {
     return (
         <div className="mainContainer" >
             <Navbar />
+            
             <div className="App" >
             <Routes >
+                <Route path="/" element={<Home />} />
                 <Route path="/home" element={<Home />} />
                 <Route path="/today" element={<Today />} />
                 <Route path="/calendar" element={<CalendarOverview/>} />
+                <Route path="/calendar/:calendarItemId" element={<CalendarOverview/>} />
                 <Route path="/lists" element={<Lists />} />
                 <Route path="/contacts" element={<Contacts />} />
                 <Route path="/contacts/:contactId" element={<Contacts />} />

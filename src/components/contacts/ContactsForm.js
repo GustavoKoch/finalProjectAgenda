@@ -5,7 +5,7 @@ import { MobileDateTimePicker } from '@mui/x-date-pickers/MobileDateTimePicker';
 import TextField from '@mui/material/TextField';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import ApiContactsData from "../services/ApiContactsData";
+import ApiContactsData from "../../services/ApiContactsData";
 import { useParams } from "react-router-dom";
 
 
@@ -14,7 +14,7 @@ let categObj = { categ0: '', categ1: '', categ2: '' };
 let categValues;
 let categValuesNoEmpty;
 let updatedContact;
-let allContacts;
+
 export default function ContactsForm({ contactPicked, closeForm }) {
 
     const [contact, setContact] = useState(contactPicked);
@@ -22,22 +22,23 @@ export default function ContactsForm({ contactPicked, closeForm }) {
     useEffect(() => {
         setContact(contactPicked)
     }, [contactPicked]);
-    /*    console.log(contact); */
+       console.log(contact);
 
     const { contactId } = useParams();
 
-    allContacts = ApiContactsData() || [];
+    const allContacts = ApiContactsData() || [];
     const handleChange = (e, newValue, birthNameday) => {
         /* For first and lastname or Avatar */
-        console.log(e);
+/*         console.log(e);
         console.log(newValue);
-        console.log(birthNameday);
+        console.log(birthNameday); */
         if (!birthNameday) {
             const { name, value } = e.target;
             setContact(prevContact => ({ ...prevContact, [name]: value }));
          /* For birth and nameday */   /* I found 2 ways to pass the value in dateTimePicker: interesting! */
         } else { setContact(prevContact => ({ ...prevContact, [birthNameday]: newValue })); };
     }
+    
 
     const handleChangeCategory = () => {
         /* We check with every change wich category remains checked. For that we use map over the categories */
@@ -50,19 +51,21 @@ export default function ContactsForm({ contactPicked, closeForm }) {
             categValues = Object.values(categObj);
             categValuesNoEmpty = categValues.filter(n => n)
             console.log(categValuesNoEmpty);
-            return categValuesNoEmpty;
+            setContact(prevContact => ({ ...prevContact, category: categValuesNoEmpty }))
+            
         })
+    }
+
+    const checkedCategAuxFunction=(cat)=>{    
+        const res =contact.category.includes(cat)
+        return res;
     }
 
 
     const submitContact = (e) => {
         e.preventDefault();
 
-        updatedContact = {
-            ...contact,
-            'category': categValuesNoEmpty
-        };
-        console.log(updatedContact);
+        updatedContact = {...contact,'category': categValuesNoEmpty};       
         setContact(updatedContact);
         /*   ApiContactsData('POST', updatedContact);  */
 
@@ -85,7 +88,6 @@ export default function ContactsForm({ contactPicked, closeForm }) {
         const timer = setTimeout(() => { closeForm(); }, 50);
         timer();
         clearTimeout(timer);
-
     }
 
     const postPutContactData = (requestMethod, objToPass, id) => {
@@ -108,9 +110,9 @@ export default function ContactsForm({ contactPicked, closeForm }) {
     }
 
     return (
-        <div >
+        <div className="sectionContacts">
             <form onSubmit={(e) => submitContact(e)}>
-                <legend id='wrappingTitle'>Add/Edit your contact</legend>
+                <legend id='wrappingTitle'>Add/Edit your event</legend>
                 <div className="container1">
                     <fieldset className="firstName">
                         <label for="firstName">
@@ -169,19 +171,21 @@ export default function ContactsForm({ contactPicked, closeForm }) {
                     </LocalizationProvider>
                 </div>
                 <div className="container3">
-                    <fieldset className="category">
-                        <label for="category" id='category'>Category</label>
+                    <fieldset className="categoryContact">
+                        <label for="category" id='categoryContact'>Category</label>
                         <fieldset className="categForm" >
-                            {categories.map((cat, index) => {
+                            {categories.map((cat, index, contact) => {
                                 return (
                                     <li key={index}>
                                         <div >
                                             <input
                                                 type="checkbox"
+                                                checked={checkedCategAuxFunction(cat)}
                                                 id={`custom-checkbox-${index}`}
                                                 name={cat}
                                                 value={cat}
                                                 onChange={() => handleChangeCategory()}
+                                                
                                             />
                                             <label htmlFor={`custom-checkbox-${index}`}>{cat}</label>
                                         </div>
