@@ -163,6 +163,7 @@ export default function CalendarOverview() {
             <h1><span>Big calendar</span> 📅</h1>
             {allEvents && <div  onClick={(e) => handleClickCalendar(e)}>
                 <Calendar
+                    
                     className="bigCalendar"
                     localizer={localizer}
                     events={allEvents} startAccessor="start" endAccessor="end" 

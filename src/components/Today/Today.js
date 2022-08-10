@@ -1,174 +1,178 @@
-// try me at https://codesandbox.io/s/user-card-mui4-njoxy8
-import { makeStyles } from "@material-ui/core/styles";
-import {
-  Card,
-  CardContent,
-  Avatar,
-  Box,
-  Typography,
-  IconButton,
-} from "@material-ui/core";
-import AddIcon from "@material-ui/icons/Add";
-import ApiContactsData from "../../services/ApiContactsData";
-import React, { useState, useEffect } from "react";
+import { getDay, parse, startOfWeek, format, set } from "date-fns";
+import React, { useState, useEffect, useContext } from "react";
+import { Calendar, dateFnsLocalizer } from "react-big-calendar";
+import "react-big-calendar/lib/css/react-big-calendar.css";
+/* import './CalendarOverview.css'; */
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import ApiCalenderData from "../../services/ApiCalenderData";
+import EventForm from './../calendar/EventForm';
 import { useNavigate } from "react-router-dom";
-import "../contacts/Contacts.css";
+import AuthContext from "../../utils/Auth"
 
-const useStyles = makeStyles((theme) => ({
-  card: {
-    display: "inline-block",
-    backgroundColor: theme.palette.grey[300],
-    margin: theme.spacing(1),
-  },
-  content: {
-    display: "flex",
-    alignItems: "center",
-    paddingTop: theme.spacing(2),
-    "&:last-child": {
-      paddingBottom: theme.spacing(2),
+
+const locales = {
+    /*  "en-US": require("date-fns/locale/en-US"), */
+    "en-GB": require("date-fns/locale/en-GB"),//We should change this to europe
+};
+const localizer = dateFnsLocalizer({
+    format,
+    parse,
+    startOfWeek,
+    getDay,
+    locales,
+});
+
+/* const events = [
+    {
+        "activityList": [],
+        "category": "Social events",
+        "contacts": [],
+        "end": "2022-08-11T22:00:00.000Z",
+        "img_url": "https://popmenucloud.com/xrpblwcd/85ba676e-8969-4793-ba64-46c7724547be.jpg",
+        "start": "2022-08-05T22:00:00.000Z",
+        "title": "Vacation",
+        "description": "laalala"
     },
-  },
-  avatar: {
-    width: 55,
-    height: 55,
-  },
-  name: {
-    lineHeight: 1,
-  },
-  button: {
-    backgroundColor: "#fff",
-    boxShadow: "0 1px 4px 0 rgba(0,0,0,0.12)",
-    "&:hover": {
-      backgroundColor: "#ff5f",
-      color: "#000",
-    },
-  },
-}));
+    {
+        "activityList": [],
+        "category": "Social events",
+        "contacts": [],
+        "end": "2022-08-21T22:00:00.000Z",
+        "img_url": "https://popmenucloud.com/xrpblwcd/85ba676e-8969-4793-ba64-46c7724547be.jpg",
+        "start": "2022-08-09T22:00:00.000Z",
+        "title": "Cooking",
+        "description": "laalala"
+    }
+] */
 
-export default function Contacts() {
-  const [popupContactsForm, setPopupContactsForm] = useState();
-  const [selectedContact, setSelectedContact] = useState();
-  const navigate = useNavigate();
+export default function Today() {
+    const [newEvent, setNewEvent] = useState({ title: "", description: "", starts: "", ends: "" });
+    const [allEvents, setAllEvents] = useState();
 
-  /*  let allCalendarEvents2 = ApiContactsData() || []; */
+    const [daySelection, setDaySelection] = useState();
+    const [selectedEvent, setSelectedEvent] = useState();
+    const [popupEventsForm, setPopupEventsForm] = useState();
+    
+    const navigate = useNavigate()
+    const { auth } = useContext(AuthContext); 
+    /* console.log(auth)
+    console.log(auth.accessToken) */
+    const token=localStorage.getItem('myToken');
+    console.log(token)
+    /* const token= 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MmYyZGZiNzY3ZWY0MWY4YWM3NWI5MGYiLCJ1c2VyRW1haWwiOiJndXNvODhAaG90bWFpbC5jb20iLCJpYXQiOjE2NjAwODY0NjMsImV4cCI6MTY2MDE3Mjg2M30.I1aftX-vkHz171Tz_g46sBfoJSiZpqbIz8mtUchvIx0' */
+    const extUrl = "calendar";
+    const url = `https://projectberlin-backend.herokuapp.com/${extUrl}`;
+    const url2 = `http://localhost:3031/${extUrl}`;
+  
+    const requestOptions = {
+      method: 'GET',
+      headers: {'Authorization':"Bearer "+ token, 'Content-Type': 'application/json'  },
+    }
+    useEffect(() => {
+      fetch(url, requestOptions)
+        .then((res) => res.json())
+        .then((data) => {
+          setAllEvents(data);
+        /*   console.log(data); */
+        })
+        .catch((e) => console.log(e.message));
+    }, [popupEventsForm]);
 
-  const [allCalendarEvents, setallCalendarEvents] = useState();
-  /*  console.log(popupContactsForm) */
 
-  const extUrl = "calendar";
-  const url = `https://projectberlin-backend.herokuapp.com/${extUrl}`;
-  const token= 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MmYyZGZiNzY3ZWY0MWY4YWM3NWI5MGYiLCJ1c2VyRW1haWwiOiJndXNvODhAaG90bWFpbC5jb20iLCJpYXQiOjE2NjAwODY0NjMsImV4cCI6MTY2MDE3Mjg2M30.I1aftX-vkHz171Tz_g46sBfoJSiZpqbIz8mtUchvIx0'
-  const requestOptions = {
-    method: "GET",
-    headers: {'Authorization':"Bearer "+ token, 'Content-Type': 'application/json'  },
-  };
-  useEffect(() => {
-    fetch(url, requestOptions)
-      .then((res) => res.json())
-      .then((data) => {
-        setallCalendarEvents(data);
-        console.log(data);
-      })
-      .catch((e) => console.log(e.message));
-  }, [popupContactsForm]);
+   /*  console.log(allCalendarItems); */
 
-  // const remaining = events.filter(
-  //   (data) => !((data.event as event) in filteredeventsArray),
-  // );
+    function handleAddEvent() {
+        setAllEvents([...allEvents, newEvent]);
+    }
+   
+    const handleClickCalendar = (e) => {
+        /*    console.log(e); */
+    }
 
-  const selectContact = (contactComponent) => {
-    setSelectedContact(contactComponent);
-    setPopupContactsForm(true);
-    navigate("/contacts/" + contactComponent._id);
-  };
-  const closeFormAndReload = () => {
-    setPopupContactsForm(!popupContactsForm);
-    setSelectedContact({
-      title: "",
-      lastName: "",
-      birthday: "Jan 01 2022 00:00:00",
-      nameday: "Jan 01 2022 00:00:00",
-      category: [],
-      avatar_url: "",
-    });
+  
 
-    navigate("/contacts");
-  };
+    const eventStyleGetter = () => { }
 
-  const toggleContactsForm = () => {
-    setSelectedContact({
-      title: "",
-      lastName: "",
-      birthday: "Jan 01 2022 00:00:00",
-      nameday: "Jan 01 2022 00:00:00",
-      category: [],
-      avatar_url: "",
-    });
-    navigate("/contacts");
-    setPopupContactsForm(!popupContactsForm);
-  };
-  /*   console.log(popupContactsForm)
-  console.log(allCalendarEvents2) */
+    const selectDay = (slotInfo) => {
+        setSelectedEvent(
+            {
+                "activityList": [],
+                "category":"",
+                "contacts": [],
+                "end": slotInfo.start,
+                "img_url": '',
+                "start": slotInfo.start,
+                "title": '',
+                "description": ''
+            }
+        );
+        console.log(selectedEvent);
+        console.log(slotInfo.start);
+        setPopupEventsForm(true);
+        navigate("/calendar");
+    }
 
-  const classes = useStyles();
+    const sendRequestandCloseForm = () => {
+        handleAddEvent();
+        setPopupEventsForm(false);
+        setSelectedEvent(
+            {
+                "activityList": [],
+                "category":null,
+                "contacts": [],
+                "end": "",
+                "img_url": '',
+                "start": "",
+                "title": '',
+                "description": ''
+            }
+        );
+        navigate('/calendar');
+    }
 
-  return (
-    <div>
-      <div className="container">
-        <div id="contactsTitle">
-          <h1>Today</h1>
-          <IconButton
-            onClick={() => toggleContactsForm()}
-            className="bigButton"
-          >
-            <AddIcon />
-          </IconButton>
+    const handleEventSelection = (e) => {
+         console.log(e, "Event data"); 
+        setSelectedEvent({
+            "activityList": e.activityList,
+            "category": e.category,
+            "contacts": e.contacts,
+            "end": e.end,
+            "img_url": e.img_url,
+            "start": e.start,
+            "title": e.title,
+            "description": e.description
+        })
+        setPopupEventsForm(true);
+        navigate('/calendar/' + e._id);
+    };
+
+ /*    if (selectedEvent)
+        console.log("hello", selectedEvent.start); */
+
+    useEffect(() => {
+
+        /* handleEventSelection(); */
+    }, [selectedEvent]);
+    return (
+        <div className="bigCalendarContainer" >
+
+            <div>
+                {popupEventsForm && <div className="mainContainerForm"><EventForm dataPicked={selectedEvent} closeForm={sendRequestandCloseForm} /></div>}
+            </div >
+            <h1><span>Today</span> 📆</h1>
+            {allEvents && <div  onClick={(e) => handleClickCalendar(e)}>
+                <Calendar
+                    defaultView='day'
+                    className="bigCalendar"
+                    localizer={localizer}
+                    events={allEvents} startAccessor="start" endAccessor="end" 
+                    onSelectSlot={(slotInfo) => { selectDay(slotInfo) }}
+                    onSelectEvent={handleEventSelection}
+                    selectable
+                    popup={true}
+                    eventPropGetter={(eventStyleGetter)} />
+            </div>}
         </div>
-        <div className="contactsAndForm">
-          <div className="contacts">
-            {allCalendarEvents &&
-              allCalendarEvents.filter((calendarEvent, index) => (
-                <Card
-                  key={index}
-                  onClick={() => selectContact(calendarEvent)}
-                  className={classes ? classes.card : ""}
-                >
-                  <CardContent className={classes ? classes.content : ""}>
-                    <Box px={3}>
-                      <Typography
-                        variant="h6"
-                        sx={{
-                          lineHeight: 1,
-                        }}
-                      >
-                        {calendarEvent.title}
-                      </Typography>
-                      <Typography variant="caption" color="textSecondary">
-                        {calendarEvent.category}
-                        {calendarEvent.start}
-                        {calendarEvent.end}
-                      </Typography>
-                    </Box>
-                    <IconButton
-                      size="small"
-                      className={classes ? classes.button : ""}
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        width="24"
-                      >
-                        <path d="M0 0h24v24H0V0z" fill="none" />
-                        <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM8 9h8v10H8V9zm7.5-5l-1-1h-5l-1 1H5v2h14V4z" />
-                      </svg>
-                    </IconButton>
-                  </CardContent>
-                </Card>
-              ))}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+    );
 }
