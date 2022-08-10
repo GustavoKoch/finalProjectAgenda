@@ -23,7 +23,7 @@ export default function EventForm({ closeForm, dataPicked }) {
   const [event, setEvent] = useState(dataPicked);
   const [contacts, setContacts] = useState(dataPicked.contacts);
   const [popupChangeContacts, setPopupChangeContacts] = useState(false);
-
+  const token=localStorage.getItem('myToken');
   /*   console.log("Hi datepicked", dataPicked.category); */
 
   const { calendarItemId } = useParams();
@@ -40,13 +40,14 @@ export default function EventForm({ closeForm, dataPicked }) {
   }
 
   const postPutCalenderData = (requestMethod, objToPass, id) => {
-
+  /* const token= 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MmYyZGZiNzY3ZWY0MWY4YWM3NWI5MGYiLCJ1c2VyRW1haWwiOiJndXNvODhAaG90bWFpbC5jb20iLCJpYXQiOjE2NjAwODY0NjMsImV4cCI6MTY2MDE3Mjg2M30.I1aftX-vkHz171Tz_g46sBfoJSiZpqbIz8mtUchvIx0' */
+  const token=localStorage.getItem('myToken');
     const extUrl = "calendar";
     const url = `https://projectberlin-backend.herokuapp.com/${extUrl}` + "/" + id;
 
     const requestOptions = {
       method: requestMethod,
-      headers: { 'Content-Type': 'application/json' },
+      headers: {'Authorization':"Bearer "+ token, 'Content-Type': 'application/json'  },
       body: JSON.stringify(objToPass)
     }
 
@@ -81,7 +82,7 @@ export default function EventForm({ closeForm, dataPicked }) {
     /*  e.preventDefault(); */
     const url = "https://projectberlin-backend.herokuapp.com/calendar/" + id;
 
-    fetch(url, { method: 'DELETE', })
+    fetch(url, { method: 'DELETE',headers: {'Authorization':"Bearer "+ token, 'Content-Type': 'application/json'  }, })
       .then((res) => { res.text(); })
       .catch((e) => console.log(e.message));
 
@@ -96,7 +97,7 @@ export default function EventForm({ closeForm, dataPicked }) {
     if (calendarItemId) {
       const url = "https://projectberlin-backend.herokuapp.com/calendar/" + calendarItemId;
 
-      fetch(url, { method: 'GET', headers: { 'Content-Type': 'application/json' } })
+      fetch(url, { method: 'GET',  headers: {'Authorization':"Bearer "+ token, 'Content-Type': 'application/json'  }, })
         .then((res) => res.json())
         .then((data) => {
           setEvent(data[0]);

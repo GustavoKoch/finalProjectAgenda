@@ -2,7 +2,6 @@
 import { makeStyles } from '@material-ui/core/styles';
 import {Card, CardContent, Avatar, Box, Typography, IconButton} from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
-
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import './Contacts.css';
@@ -44,7 +43,8 @@ const useStyles = makeStyles(theme => ({
 
 
 export default function Contacts() {
-
+  
+  
   const [popupContactsForm, setPopupContactsForm] = useState();
   const [selectedContact, setSelectedContact] = useState();
  
@@ -53,12 +53,16 @@ export default function Contacts() {
 
   const [allContacts, setAllContacts] = useState();
 
+  /* const token= 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MmYyZGZiNzY3ZWY0MWY4YWM3NWI5MGYiLCJ1c2VyRW1haWwiOiJndXNvODhAaG90bWFpbC5jb20iLCJpYXQiOjE2NjAwODY0NjMsImV4cCI6MTY2MDE3Mjg2M30.I1aftX-vkHz171Tz_g46sBfoJSiZpqbIz8mtUchvIx0' */
+  const token=localStorage.getItem('myToken');
   const extUrl = "contacts";
   const url = `https://projectberlin-backend.herokuapp.com/${extUrl}`;
+  const url2 = `http://localhost:3031/${extUrl}`;
 
   const requestOptions = {
     method: 'GET',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {'Authorization':"Bearer "+ token, 'Content-Type': 'application/json'  }, 
+   
   }
   useEffect(() => {
     fetch(url, requestOptions)
@@ -68,6 +72,8 @@ export default function Contacts() {
        /*  console.log(data); */
       })
       .catch((e) => console.log(e.message));
+
+      
   }, [popupContactsForm]);
 
 

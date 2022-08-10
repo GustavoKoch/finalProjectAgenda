@@ -17,7 +17,7 @@ let categValuesNoEmpty;
 let updatedContact;
 
 export default function ContactsForm({ contactPicked, closeForm }) {
-
+    const token=localStorage.getItem('myToken');
     const [contact, setContact] = useState(contactPicked);
     /* Useffect for rerendering again if initial state (contactPicked) changes */
     useEffect(() => {
@@ -79,18 +79,20 @@ export default function ContactsForm({ contactPicked, closeForm }) {
         else
             postPutContactData('PUT', updatedContact, contactId);
 
-        closeForm();
+             closeForm(); 
+            
+       
     }
 
     const handleDelete = (e) => {
         /*  e.preventDefault(); */
         const url = "https://projectberlin-backend.herokuapp.com/contacts/" + contactId;
 
-        fetch(url, { method: 'DELETE', })
+        fetch(url, { method: 'DELETE', headers: {'Authorization':"Bearer "+ token, 'Content-Type': 'application/json'  }})
             .then((res) => { res.text(); })
             .catch((e) => console.log(e.message));
 
-        const timer = setTimeout(() => { closeForm(); }, 50);
+        const timer = setTimeout(() => { closeForm(); }, 150);
         timer();
         clearTimeout(timer);
     }
@@ -101,11 +103,11 @@ export default function ContactsForm({ contactPicked, closeForm }) {
             extUrl = "contacts" + "/" + id;
 
         const url = `https://projectberlin-backend.herokuapp.com/${extUrl}`;
-
+        const url2 = `http://localhost:3031/${extUrl}`;
         const requestOptions = {
             /* mode: 'no-cors',  */
             method: requestMethod,
-            headers: { 'Content-Type': 'application/json' },
+            headers: {'Authorization':"Bearer "+ token, 'Content-Type': 'application/json'  },
             body: JSON.stringify(objToPass)
         }
 

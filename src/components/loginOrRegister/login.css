@@ -1,0 +1,98 @@
+.login{
+    display: flex;
+    justify-content: center;
+    margin:auto;
+    margin-top:150px;
+
+}
+.login section {
+    width: 100%;
+    max-width: 420px;
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 1rem;
+    background-color: rgba(0, 47, 255, 0.6);
+   
+    border: 3px solid white;
+    border-radius: 25px;
+}
+
+.login  form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    flex-grow: 1;
+    padding-bottom: 1rem;
+}
+
+.login  a, .login  a:visited {
+    color: #fff;
+}
+.login h1 {font-size: 22px;margin:0.5rem 0  1.5rem 0;color:white;}
+.login input[type="text"],
+.login input[type="password"],
+.login button,
+.login textarea {
+  font-family: 'Nunito', sans-serif;
+  font-size: 22px;
+  padding: 0.25rem;
+  border-radius: 0.5rem;
+}
+
+.login  label{
+  margin: 0.8rem;
+}
+
+.login button {
+  padding: 0.5rem;
+  margin: 0.5rem auto;
+  width: 100px;
+}
+.login  label{ font-size: 22px;}
+.login .instructions {
+    font-size: 0.75rem;
+    border-radius: 0.5rem;
+    background: #000;
+    color: #fff;
+    padding: 0.25rem;
+    position: relative;
+    bottom: -10px;
+}
+
+.login .instructions > svg {
+    margin-right: 0.25rem;
+}
+
+.login  .offscreen {
+    position: absolute;
+    left: -9999px;
+}
+
+.login  .hide {
+    display: none;
+}
+
+.login .valid {
+    color: limegreen;
+    margin-left: 0.25rem;
+}
+
+.login .invalid {
+    color: red;
+    margin-left: 0.25rem;
+}
+
+.login .errmsg {
+    background-color: lightpink;
+    color: firebrick;
+    font-weight: bold;
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.login .line {
+    display: inline-block;
+    margin:1rem;
+}

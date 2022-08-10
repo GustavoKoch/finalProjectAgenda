@@ -1,5 +1,5 @@
 import { getDay, parse, startOfWeek, format, set } from "date-fns";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Calendar, dateFnsLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import './CalendarOverview.css';
@@ -8,6 +8,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import ApiCalenderData from "../../services/ApiCalenderData";
 import EventForm from './EventForm';
 import { useNavigate } from "react-router-dom";
+import AuthContext from "../../utils/Auth"
 
 
 const locales = {
@@ -54,13 +55,19 @@ export default function CalendarOverview() {
     const [popupEventsForm, setPopupEventsForm] = useState();
     
     const navigate = useNavigate()
-
+    const { auth } = useContext(AuthContext); 
+    /* console.log(auth)
+    console.log(auth.accessToken) */
+    const token=localStorage.getItem('myToken');
+    console.log(token)
+    /* const token= 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MmYyZGZiNzY3ZWY0MWY4YWM3NWI5MGYiLCJ1c2VyRW1haWwiOiJndXNvODhAaG90bWFpbC5jb20iLCJpYXQiOjE2NjAwODY0NjMsImV4cCI6MTY2MDE3Mjg2M30.I1aftX-vkHz171Tz_g46sBfoJSiZpqbIz8mtUchvIx0' */
     const extUrl = "calendar";
     const url = `https://projectberlin-backend.herokuapp.com/${extUrl}`;
+    const url2 = `http://localhost:3031/${extUrl}`;
   
     const requestOptions = {
       method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {'Authorization':"Bearer "+ token, 'Content-Type': 'application/json'  },
     }
     useEffect(() => {
       fetch(url, requestOptions)

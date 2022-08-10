@@ -7,14 +7,16 @@ const ApiContactsData = (requestMethod, objToPass) => {
 
 
   const [allContacts, setAllContacts] = useState();
-
+  /* const token= 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MmYyZGZiNzY3ZWY0MWY4YWM3NWI5MGYiLCJ1c2VyRW1haWwiOiJndXNvODhAaG90bWFpbC5jb20iLCJpYXQiOjE2NjAwODY0NjMsImV4cCI6MTY2MDE3Mjg2M30.I1aftX-vkHz171Tz_g46sBfoJSiZpqbIz8mtUchvIx0' */
+  const token=localStorage.getItem('myToken');
+  
   /* const pokeName = originalName.toLowerCase(); */
   const extUrl = "contacts";
   const url = `https://projectberlin-backend.herokuapp.com/${extUrl}`;
-
+  const url2 = `http://localhost:3031/${extUrl}`;
   const requestOptions = {
     method: requestMethod,
-    headers: { 'Content-Type': 'application/json' },
+    headers: {'Authorization':"Bearer "+ token, 'Content-Type': 'application/json'  }, 
     body: JSON.stringify(objToPass)
   }
 

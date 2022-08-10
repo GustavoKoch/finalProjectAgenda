@@ -60,21 +60,28 @@
     justify-items: center;
     padding: 1rem;
 }
+.contacts .content {    display: 'flex';
+    align-items: 'center';
+    padding-top: 2px}
+
+.contacts .avatarPic{ width: 55px;
+    height: 55px}
+
 
 .contacts .MuiAvatar-rounded {
     border-radius: 100px;
 }
 
-.MuiAvatar-root.MuiAvatar-rounded.makeStyles-avatar-3 {
+.contacts .MuiAvatar-root.MuiAvatar-rounded.makeStyles-avatar-3 {
     height: 80px;
     width: 80px
 }
 
-.MuiCardContent-root.makeStyles-content-2 {
+.contacts .MuiCardContent-root.makeStyles-content-2 {
     padding: 1px;
 }
 
-.MuiPaper-root.MuiCard-root.makeStyles-card-1.MuiPaper-elevation1.MuiPaper-rounded {
+.contacts .MuiPaper-root.MuiCard-root.makeStyles-card-1.MuiPaper-elevation1.MuiPaper-rounded {
     border-radius: 100px;
     border-top-right-radius: 10px;
     height: 80px;
@@ -86,7 +93,7 @@
     display: flex;
     text-align: center;
     margin: 5rem 0.5rem;
-    width: 48%;
+    width: 60%;
     border: 3px solid lightgrey;
     border-radius: 15px;
     justify-content: center;

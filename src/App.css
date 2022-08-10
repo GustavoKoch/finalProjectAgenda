@@ -272,3 +272,57 @@ abbr[title] {
     background: #6f48eb;
     color: white;
 }
+
+
+
+
+.menuHome {
+    display: flex;
+    flex-direction: column;
+    justify-content:space-around ;
+    width: 250px;
+    margin: 90px 50px;
+    position: relative;
+    z-index: 110;
+    background-color: rgb(167, 238, 214);
+    opacity: 0.9;
+    border: 3px solid rgb(255, 255, 255);
+    border-radius: 25px;
+    align-content: space-between;
+    height: 1000px;
+    align-items: center;
+}
+
+
+.menuHome .todayButton {
+    background-color: rgba(225, 14, 253, 0.836);
+}
+
+.menuHome .listsMenu {
+   font-size:10px;
+}
+
+.menuHome button {
+    height: 80px;
+    width: 200px;
+    opacity: 1;
+}
+
+
+
+.menuHome .birthdaysMenu {
+    background-color: rgba(58, 14, 253, 0.836);
+}
+
+.menuHome .contactsMenu {
+    background-color: rgba(20, 189, 180, 0.966); 
+}
+.menuHome .calendarButtonMenu {
+    background-color: rgb(2, 136, 209); 
+}
+.menuHome .vacationPlaningMenu {
+    background-color:  #2e7d32;
+}
+.menuHome .listsMenu{
+    background-color:  rgb(237, 108, 2);
+}
