@@ -1,14 +1,16 @@
 .birthdayMainContainer{
     display:flex;
     justify-content: right;
-    margin-top: 50px;
-    margin-right:100px;
+    margin-top: 100px;
+    justify-items: center;
 }
 .birthdayWrappingContainer h1 span{font-size: 3rem;font-style: italic;color:grey;font-weight: 800;text-align: end;}
 .birthdayWrappingContainer h1 {font-size: 3rem;font-style: normal;color:grey;font-weight: 800;margin-top:50px;margin-right: 200px;text-align: end;}
 
 .birthdayCalender{
     height: 600px;
-    width:800px;
+    width:1000px;
     margin:0;
 }
+
+.birthdayCalender .rbc-event-content{text-align: center;}

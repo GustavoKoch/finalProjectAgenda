@@ -23,28 +23,6 @@ const localizer = dateFnsLocalizer({
     locales,
 });
 
-/* const events = [
-    {
-        "activityList": [],
-        "category": "Social events",
-        "contacts": [],
-        "end": "2022-08-11T22:00:00.000Z",
-        "img_url": "https://popmenucloud.com/xrpblwcd/85ba676e-8969-4793-ba64-46c7724547be.jpg",
-        "start": "2022-08-05T22:00:00.000Z",
-        "title": "Vacation",
-        "description": "laalala"
-    },
-    {
-        "activityList": [],
-        "category": "Social events",
-        "contacts": [],
-        "end": "2022-08-21T22:00:00.000Z",
-        "img_url": "https://popmenucloud.com/xrpblwcd/85ba676e-8969-4793-ba64-46c7724547be.jpg",
-        "start": "2022-08-09T22:00:00.000Z",
-        "title": "Cooking",
-        "description": "laalala"
-    }
-] */
 
 export default function CalendarOverview() {
     const [newEvent, setNewEvent] = useState({ title: "", description: "", starts: "", ends: "" });
@@ -81,6 +59,16 @@ export default function CalendarOverview() {
 
 
    /*  console.log(allCalendarItems); */
+
+   const allEventsCalender=allEvents?.map((e)=>({
+            "start":e.start,
+            "end":e.end,
+            "title":e.title,
+            "description":e.description,
+            "id":e._id,
+        }))
+    
+   
 
     function handleAddEvent() {
         setAllEvents([...allEvents, newEvent]);
@@ -133,12 +121,14 @@ export default function CalendarOverview() {
 
     const handleEventSelection = (e) => {
          console.log(e, "Event data"); 
+         const xtraInfo=allEvents.find((x)=>x._id===e.id)
+         console.log(xtraInfo)
         setSelectedEvent({
-            "activityList": e.activityList,
-            "category": e.category,
-            "contacts": e.contacts,
+            "activityList": xtraInfo.activityList,
+            "category": xtraInfo.category,
+            "contacts": xtraInfo.contacts,
             "end": e.end,
-            "img_url": e.img_url,
+            "img_url": xtraInfo.img_url,
             "start": e.start,
             "title": e.title,
             "description": e.description

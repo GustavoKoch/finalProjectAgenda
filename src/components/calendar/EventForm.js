@@ -40,12 +40,8 @@ export default function EventForm({ closeForm, dataPicked }) {
       postPutCalenderData('PUT', event, calendarItemId);
 
      closeForm(); 
-
-
   }
 
-  
- 
  
 console.log (event)
   const postPutCalenderData = (requestMethod, objToPass, id) => {
@@ -77,10 +73,11 @@ console.log (event)
     console.log(e.target.checked)
     const contactsChecked = document.querySelectorAll("input[type=checkbox]:checked");
     const contactsUpdated = Array.from(contactsChecked).map((x) => { return x.name })
+    console.log(contactsUpdated);
     setEvent({ ...event, "contacts": contactsUpdated })
     setContacts(contactsUpdated);
   }
-
+console.log(event)
 
   const auxEditContact = (contact) => {
     const res = (JSON.stringify(event.contacts)).includes(JSON.stringify(contact));
@@ -115,13 +112,13 @@ console.log (event)
         })
         .catch((e) => console.log(e.message));
     }
-    else
+    else if(!popupChangeContacts)
     setEvent(dataPicked)
-  }, [dataPicked, popupChangeContacts]);
+  }, [dataPicked]);
 
   const handleSubmitContacts = (e) => {
     e.preventDefault()
-    postPutCalenderData('PUT', event, calendarItemId);
+    /* postPutCalenderData('PUT', event, calendarItemId); */
     setTimeout(() => { setPopupChangeContacts(!popupChangeContacts); }, 150);
     /*  closeForm(); */
   }
@@ -186,6 +183,7 @@ console.log (event)
                 onChange={handleChangeCategory} /> */}
 
               <select onChange={(e) => { console.log(e.target.value); setEvent({ ...event, "category": e.target.value }) }} name="categories" id="categories" value={event.category?event.category:""}>
+                <option value="Social events">Pick one!</option>
                 <option value="Social events">Social events</option>
                 <option value="Reminders">Reminders</option>
                 <option value="Birthdays">Birthdays</option>
@@ -201,16 +199,20 @@ console.log (event)
 
 
               {!popupChangeContacts && <ul className="avatarEventCalenderContainer" style={{ alignText: 'center', margin: 10 }}>
-                {event && event.contacts.map((contact, index) => {
+                {event && event.contacts.map((contact, index) => {                 
+                  const contact2=allContacts.find((x)=>{return contact==x._id;})
+                console.log(allContacts)
+                  console.log(contact)
+                  console.log(contact2) 
                   return (
                     <li key={index}>
                       <div className="eachContactCalender">
                         <Avatar className="avatarEventCalender"
                           variant="rounded"
                           sx={{ width: 20, height: 20 }}
-                          src={contact.avatar_url}
+                          src={contact2?.avatar_url||contact.avatar_url}
                         />
-                        <label htmlFor={contact.firstName}>{contact.firstName}</label>
+                        <label htmlFor={contact2?.firstName||contact.firstName}>{contact2?.firstName||contact.firstName}</label>
                       </div>
                     </li>
                   );

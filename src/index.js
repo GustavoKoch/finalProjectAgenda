@@ -5,13 +5,16 @@ import App from './App';
 
 import { BrowserRouter } from "react-router-dom";
 import CalendarContextProvider from './contexts/CalendarContext';
+import {AuthProvider} from "./utils/Auth";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
   root.render(
     <BrowserRouter>
-      <CalendarContextProvider>
+    <AuthProvider>
+      
         <App />
-      </CalendarContextProvider>
+      
+    </AuthProvider>
     </BrowserRouter>
   );
 

@@ -13,8 +13,10 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import "./NavBar.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, } from "react-router-dom";
 import AuthContext from "../../utils/Auth"
+import { useState,  useContext } from 'react';
+
 
 
 
@@ -23,9 +25,10 @@ import AuthContext from "../../utils/Auth"
 
 const ResponsiveAppBar = () => {
   
+  const { setAuth, auth} = useContext(AuthContext);
   
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [anchorElNav, setAnchorElNav] = useState(null);
+  const [anchorElUser, setAnchorElUser] = useState(null);
   const navigate = useNavigate();
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -57,6 +60,19 @@ const styleNavbar = {
     width:1500,   
     borderRadius: 25, 
 };
+console.log(auth)
+const token=localStorage.getItem('myToken');
+const user=localStorage.getItem('user');
+
+const checkuser=(user)=>{
+if(user===undefined||user===null){
+
+return true}
+else return false
+}
+
+
+console.log(user, token)
 
 
   return (
@@ -79,11 +95,15 @@ const styleNavbar = {
               {<Button                
                 onClick={()=>navigate("/login")}
                 sx={{ my: 2, color: 'white', display: 'block' }}
-              >Login                
+              >
+                
+                {checkuser(user)?"Login":"HELLO  '" +user+"'" } 
+
               </Button>}
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
+
           <div className='profileDiv'>
           
             <Tooltip title="Open settings">
@@ -93,6 +113,7 @@ const styleNavbar = {
               <Avatar  src="https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" alt="Remy Sharp"/>
               </IconButton>
             </Tooltip>
+            <img  onClick={ ()=>{setAuth();localStorage.clear();window.location="/"}} alt="our logo" className="logoExit" src="https://cdn.vectorstock.com/i/1000x1000/53/26/exit-sign-green-vector-7885326.webp"></img>
             </div>  
          
           </Box>

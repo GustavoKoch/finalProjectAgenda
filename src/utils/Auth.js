@@ -6,20 +6,23 @@ const AuthContext = createContext(null)
 /* AuthProvider that will wrap all the components */
 export const AuthProvider = ({children}) => {
    /*  const [user, setUser] = useState(null) */
-   const [auth, setAuth] = useState({});
+   const [auth, setAuth] = useState();
 
   /*   const login = (user => { setUser(user) })
     const logout = (user => { setUser(null) }) */
 
-   if(auth.accessToken)
-    localStorage.setItem('myToken', auth.accessToken);
-const myToken=localStorage.getItem('myToken', auth.accessToken);
+   if(auth){
+   console.log(auth)
+    localStorage.setItem('myToken', auth?.accessToken);
+    localStorage.setItem('user', auth?.user);}
+   /*  localStorage.setItem('user', auth?.user); */
+/* const myToken=localStorage.getItem('myToken', auth?.accessToken); */
 
-    useEffect(() => {
+/*     useEffect(() => {
        
       setAuth(myToken)
 
-    }, [auth]);
+    }, [auth]); */
 
 
 /* console.log(auth) */

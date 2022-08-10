@@ -17,7 +17,7 @@ import Register from "./components/loginOrRegister/Register";
 import { Button } from '@mui/material';
 import { Avatar } from '@mui/material';
 import RequireAuth from "./components/requireAuth.js/RequireAuth.js";
-import {AuthProvider} from "./utils/Auth";
+
 import "./components/home/Home";
 import { useNavigate } from "react-router-dom";
 
@@ -38,7 +38,7 @@ export default function App() {
 
     return (
         <div className="mainContainer" >
-            <AuthProvider>
+           
                 <Navbar />
                 <div className="mainContainer2" >
                     <div className="Home">
@@ -54,7 +54,7 @@ export default function App() {
                     <div className="App" >
                         <Routes >
                             <Route path="/" element={<Login />} />
-                            <Route path="/home" element={<CalendarOverview/>} />
+                            <Route path="/home" element={<CalendarOverview />} />
                             <Route path="/today" element={<Today />} />
                             <Route path="/calendar" element={<CalendarOverview />} />
                             <Route path="/calendar/:calendarItemId" element={<CalendarOverview />} />
@@ -73,7 +73,7 @@ export default function App() {
             <ListApp style={style} /> */}
 
                 </div>
-            </AuthProvider>
+           
         </div >
     )
 

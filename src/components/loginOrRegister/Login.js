@@ -1,4 +1,5 @@
 import { useRef, useState, useEffect, useContext } from 'react';
+import { useNavigate } from "react-router-dom";
 import AuthContext from "../../utils/Auth";
 import "./login.css";
 
@@ -6,7 +7,7 @@ import axios from '../../services/axios';
 const LOGIN_URL = '/users/login';
 
 const Login = () => {
-    const { setAuth } = useContext(AuthContext);
+    const { setAuth} = useContext(AuthContext);
     const userRef = useRef();
     const errRef = useRef();
 
@@ -14,6 +15,7 @@ const Login = () => {
     const [pwd, setPwd] = useState('12345678');
     const [errMsg, setErrMsg] = useState('');
     const [success, setSuccess] = useState(false);
+    const navigate=useNavigate();
 
     useEffect(() => {
         userRef.current.focus();
@@ -39,7 +41,7 @@ const Login = () => {
             const accessToken = response?.data?.token;
             console.log(accessToken);            
             /* const roles = response?.data?.roles; */
-            setAuth({ user, pwd, accessToken });
+            setAuth({ user, accessToken });
             setUser('');
             setPwd('');
             setSuccess(true);
@@ -64,9 +66,9 @@ const Login = () => {
                 <section>
                     <h1>You are logged in!</h1>
                     <br />
-                    <p>
-                        <a href="/home">Go to Home</a>
-                    </p>
+                    
+                        <h3 id="goHome" onClick={()=>navigate("/home")}>Go to Home</h3>
+                   
                 </section>
             ) : (
                 <section>

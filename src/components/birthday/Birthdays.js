@@ -65,15 +65,14 @@ export default function Birthdays() {
             return {
             "start": contact.birthday,
             "end":contact.birthday,
-            "title":contact.firstName, 
+            "title":contact.firstName+" 🎁", 
             "description": contact.firstName,
             "activityList":[], 
             "category":"Birthdays",
             "img_url":contact.avatar_url
         }})  
     } 
-    console.log(birthdays)
-    if(allBirthdays){ }
+
     
     useEffect(() => {
      
@@ -87,7 +86,7 @@ export default function Birthdays() {
 
     return (
         <div className="birthdayWrappingContainer" >
-            <h1><span>Birthday calendar</span> 🎂</h1>
+            <h1><span> Birthday calendar </span> 🎂🥳</h1>
             {birthdays&& <div className="birthdayMainContainer">
                 <Calendar className="birthdayCalender"
                     localizer={localizer}
