@@ -73,17 +73,14 @@ export default function ContactsForm({ contactPicked, closeForm }) {
         updatedContact = {...contact,'category': categValuesNoEmpty};       
         setContact(updatedContact);
         /*   ApiContactsData('POST', updatedContact);  */
-
+       
         if (!contactId)
             postPutContactData('POST', updatedContact);
         else
             postPutContactData('PUT', updatedContact, contactId);
-
-             closeForm(); 
-            
-       
+    closeForm(); 
     }
-
+  
     const handleDelete = (e) => {
         /*  e.preventDefault(); */
         const url = "https://projectberlin-backend.herokuapp.com/contacts/" + contactId;
@@ -98,6 +95,7 @@ export default function ContactsForm({ contactPicked, closeForm }) {
     }
 
     const postPutContactData = (requestMethod, objToPass, id) => {
+        console.log(objToPass)
         let extUrl = "contacts";
         if (requestMethod === 'PUT')
             extUrl = "contacts" + "/" + id;

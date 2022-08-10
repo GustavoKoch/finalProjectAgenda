@@ -32,13 +32,22 @@ export default function EventForm({ closeForm, dataPicked }) {
 
   const passEvent = (e) => {
     e.preventDefault();
+    console.log(event)
+    console.log(calendarItemId)
     if (!calendarItemId)
       postPutCalenderData('POST', event, "");
     if (calendarItemId)
       postPutCalenderData('PUT', event, calendarItemId);
-    closeForm();
+
+     closeForm(); 
+
+
   }
 
+  
+ 
+ 
+console.log (event)
   const postPutCalenderData = (requestMethod, objToPass, id) => {
   /* const token= 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MmYyZGZiNzY3ZWY0MWY4YWM3NWI5MGYiLCJ1c2VyRW1haWwiOiJndXNvODhAaG90bWFpbC5jb20iLCJpYXQiOjE2NjAwODY0NjMsImV4cCI6MTY2MDE3Mjg2M30.I1aftX-vkHz171Tz_g46sBfoJSiZpqbIz8mtUchvIx0' */
   const token=localStorage.getItem('myToken');
@@ -50,6 +59,7 @@ export default function EventForm({ closeForm, dataPicked }) {
       headers: {'Authorization':"Bearer "+ token, 'Content-Type': 'application/json'  },
       body: JSON.stringify(objToPass)
     }
+    console.log(requestOptions)
 
     fetch(url, requestOptions)
       .then((res) => res.json())
@@ -140,7 +150,7 @@ export default function EventForm({ closeForm, dataPicked }) {
               <MobileDateTimePicker
                 /* style={styleDateTimePicker} */
                 value={event.start}
-                onChange={(e) => setEvent({ ...event, "start": e.target.value })}
+                onChange={(e) => {console.log(e);setEvent({ ...event, "start": e })}}
 
 
                 label="Starts"
@@ -154,7 +164,7 @@ export default function EventForm({ closeForm, dataPicked }) {
               <MobileDateTimePicker
                 /* style={styleDateTimePicker} */
                 value={event.end}
-                onChange={(e) => setEvent({ ...event, "end": e.target.value })}
+                onChange={(e) => setEvent({ ...event, "end": e })}
 
                 label="Ends"
                 onError={console.log}

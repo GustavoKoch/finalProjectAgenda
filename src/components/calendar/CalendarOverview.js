@@ -59,7 +59,7 @@ export default function CalendarOverview() {
     /* console.log(auth)
     console.log(auth.accessToken) */
     const token=localStorage.getItem('myToken');
-    console.log(token)
+    /* console.log(token) */
     /* const token= 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MmYyZGZiNzY3ZWY0MWY4YWM3NWI5MGYiLCJ1c2VyRW1haWwiOiJndXNvODhAaG90bWFpbC5jb20iLCJpYXQiOjE2NjAwODY0NjMsImV4cCI6MTY2MDE3Mjg2M30.I1aftX-vkHz171Tz_g46sBfoJSiZpqbIz8mtUchvIx0' */
     const extUrl = "calendar";
     const url = `https://projectberlin-backend.herokuapp.com/${extUrl}`;
@@ -107,8 +107,8 @@ export default function CalendarOverview() {
                 "description": ''
             }
         );
-        console.log(selectedEvent);
-        console.log(slotInfo.start);
+/*         console.log(selectedEvent);
+        console.log(slotInfo.start); */
         setPopupEventsForm(true);
         navigate("/calendar");
     }
