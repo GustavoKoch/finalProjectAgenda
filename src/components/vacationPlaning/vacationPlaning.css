@@ -1,0 +1,13 @@
+.vacationContainer{
+
+    font-size: 50px;
+    border: 3px solid lightgrey;
+    background-color: white;
+    border-radius: 25px;
+    margin-top:500px;
+    transform: rotate(-45deg);
+    height: 200px;
+    text-align: center;
+}
+
+.vacationContainer h1{text-align: center;margin:auto;margin-top: 70px;color:red}
