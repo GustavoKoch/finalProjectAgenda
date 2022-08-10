@@ -72,6 +72,10 @@ export default function Contacts() {
       .catch((e) => console.log(e.message));
   }, [popupContactsForm]);
 
+  // const remaining = events.filter(
+  //   (data) => !((data.event as event) in filteredeventsArray),
+  // );
+
   const selectContact = (contactComponent) => {
     setSelectedContact(contactComponent);
     setPopupContactsForm(true);
@@ -90,7 +94,6 @@ export default function Contacts() {
 
     navigate("/contacts");
   };
-  /*  console.log(popupContactsForm) */
 
   const toggleContactsForm = () => {
     setSelectedContact({
@@ -124,7 +127,7 @@ export default function Contacts() {
         <div className="contactsAndForm">
           <div className="contacts">
             {allCalendarEvents &&
-              allCalendarEvents.filter.map((calendarEvent, index) => (
+              allCalendarEvents.filter((calendarEvent, index) => (
                 <Card
                   key={index}
                   onClick={() => selectContact(calendarEvent)}
