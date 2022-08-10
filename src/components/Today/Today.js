@@ -23,28 +23,7 @@ const localizer = dateFnsLocalizer({
     locales,
 });
 
-/* const events = [
-    {
-        "activityList": [],
-        "category": "Social events",
-        "contacts": [],
-        "end": "2022-08-11T22:00:00.000Z",
-        "img_url": "https://popmenucloud.com/xrpblwcd/85ba676e-8969-4793-ba64-46c7724547be.jpg",
-        "start": "2022-08-05T22:00:00.000Z",
-        "title": "Vacation",
-        "description": "laalala"
-    },
-    {
-        "activityList": [],
-        "category": "Social events",
-        "contacts": [],
-        "end": "2022-08-21T22:00:00.000Z",
-        "img_url": "https://popmenucloud.com/xrpblwcd/85ba676e-8969-4793-ba64-46c7724547be.jpg",
-        "start": "2022-08-09T22:00:00.000Z",
-        "title": "Cooking",
-        "description": "laalala"
-    }
-] */
+
 
 export default function Today() {
     const [newEvent, setNewEvent] = useState({ title: "", description: "", starts: "", ends: "" });
@@ -90,7 +69,13 @@ export default function Today() {
         /*    console.log(e); */
     }
 
-  
+    const allEventsCalender=allEvents?.map((e)=>({
+      "start":new Date(e.start),
+      "end":new Date(e.end),
+      "title":e.title,
+      "description":e.description,
+      "_id":e._id,
+    }))
 
     const eventStyleGetter = () => { }
 
@@ -166,7 +151,7 @@ export default function Today() {
                     defaultView='day'
                     className="bigCalendar"
                     localizer={localizer}
-                    events={allEvents} startAccessor="start" endAccessor="end" 
+                    events={allEventsCalender} startAccessor="start" endAccessor="end" 
                     onSelectSlot={(slotInfo) => { selectDay(slotInfo) }}
                     onSelectEvent={handleEventSelection}
                     selectable

@@ -61,12 +61,14 @@ export default function CalendarOverview() {
    /*  console.log(allCalendarItems); */
 
    const allEventsCalender=allEvents?.map((e)=>({
-            "start":e.start,
-            "end":e.end,
+            "start":new Date(e.start),
+            "end":new Date(e.end),
             "title":e.title,
             "description":e.description,
-            "id":e._id,
+            "_id":e._id,
         }))
+
+    console.log(allEventsCalender)
     
    
 
@@ -121,7 +123,7 @@ export default function CalendarOverview() {
 
     const handleEventSelection = (e) => {
          console.log(e, "Event data"); 
-         const xtraInfo=allEvents.find((x)=>x._id===e.id)
+         const xtraInfo=allEvents.find((x)=>x._id===e._id)
          console.log(xtraInfo)
         setSelectedEvent({
             "activityList": xtraInfo.activityList,
@@ -131,9 +133,11 @@ export default function CalendarOverview() {
             "img_url": xtraInfo.img_url,
             "start": e.start,
             "title": e.title,
-            "description": e.description
+            "description": e.description,
+            "_id":e._id
         })
         setPopupEventsForm(true);
+        console.log(e._id)
         navigate('/calendar/' + e._id);
     };
 
@@ -156,7 +160,7 @@ export default function CalendarOverview() {
                     
                     className="bigCalendar"
                     localizer={localizer}
-                    events={allEvents} startAccessor="start" endAccessor="end" 
+                    events={allEventsCalender} startAccessor="start" endAccessor="end" 
                     onSelectSlot={(slotInfo) => { selectDay(slotInfo) }}
                     onSelectEvent={handleEventSelection}
                     selectable
