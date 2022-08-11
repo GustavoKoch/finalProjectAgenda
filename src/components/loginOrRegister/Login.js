@@ -34,7 +34,7 @@ const Login = () => {
                 {
                     headers: {'Content-Type': 'application/json', origin:
     
-                    'https://projectberlincalender.netlify.app/'},
+                    'https://projectberlincalender.netlify.app'},
                    
                 }
             );
