@@ -30,10 +30,10 @@ const Login = () => {
 
         try {
             const response = await axios.post(LOGIN_URL,
-                JSON.stringify({ "email":user, "password":pwd }),
+               { "email":user, "password":pwd },
                 {
                     headers: {'Content-Type': 'application/json'},
-                    withCredentials: false
+                   
                 }
             );
 /*             console.log(response?.data);
