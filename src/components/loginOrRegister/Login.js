@@ -32,7 +32,9 @@ const Login = () => {
             const response = await axios.post(LOGIN_URL,
                { "email":user, "password":pwd },
                 {
-                    headers: {'Content-Type': 'application/json'},
+                    headers: {'Content-Type': 'application/json', origin:
+    
+                    'https://projectberlincalender.netlify.app/'},
                    
                 }
             );
